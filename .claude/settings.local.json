@@ -1,0 +1,32 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ssh root@69.62.108.82 \"cd /var/www/solidarlink && wp config create --dbname=solidarlink_db --dbuser=solidarlink_user --dbpass=''SolidarDB2025'' --dbhost=localhost --allow-root && echo ''wp-config.php created''\")",
+      "Bash(ssh root@69.62.108.82 \"cd /var/www/solidarlink && wp core install --url=''solidarlink.srv759970.hstgr.cloud'' --title=''SolidarLink'' --admin_user=''julien'' --admin_password=''JulienWP2025'' --admin_email=''julien.fernandez.work@gmail.com'' --allow-root && echo ''WordPress installed''\")",
+      "Bash(ssh root@69.62.108.82 \"cat > /etc/nginx/sites-available/solidarlink << ''EOF''\nserver {\n    listen 80;\n    server_name solidarlink.srv759970.hstgr.cloud;\n    root /var/www/solidarlink;\n    index index.php index.html;\n\n    # Basic Auth\n    include snippets/basic-auth.conf;\n\n    location / {\n        try_files $uri $uri/ /index.php?$args;\n    }\n\n    location ~ \\.php$ {\n        include snippets/fastcgi-php.conf;\n        fastcgi_pass unix:/run/php/php8.3-fpm.sock;\n        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;\n        include fastcgi_params;\n    }\n\n    location ~ /\\.ht {\n        deny all;\n    }\n}\nEOF\nln -sf /etc/nginx/sites-available/solidarlink /etc/nginx/sites-enabled/ && nginx -t\")",
+      "Bash(ssh root@69.62.108.82 \"systemctl reload nginx && echo ''Nginx reloaded''\")",
+      "Bash(ssh root@69.62.108.82 \"certbot --nginx -d solidarlink.srv759970.hstgr.cloud --non-interactive --agree-tos --email julien.fernandez.work@gmail.com --redirect\")",
+      "Bash(ssh root@69.62.108.82 \"cd /var/www/solidarlink && wp plugin install all-in-one-wp-migration --activate --allow-root && echo ''Plugin installed''\")",
+      "Bash(ssh root@69.62.108.82 \"cd /var/www/solidarlink && wp option update ai1wm_max_file_size 1073741824 --allow-root && echo ''Upload limit set to 1GB''\")",
+      "Bash(ssh root@69.62.108.82 \"cat /etc/nginx/sites-available/solidarlink\")",
+      "Bash(ssh root@69.62.108.82 \"ls -la /etc/nginx/sites-enabled/ | grep solidarlink\")",
+      "Bash(ssh root@69.62.108.82 \"ls -la /var/www/solidarlink/ | head -10\")",
+      "Bash(ssh root@69.62.108.82 \"curl -I http://solidarlink.srv759970.hstgr.cloud 2>&1 | head -10\")",
+      "Bash(ssh root@69.62.108.82 \"cd /var/www/solidarlink && wp option get siteurl --allow-root && wp option get home --allow-root\")",
+      "Bash(ssh:*)",
+      "Read(//c/Users/JulienFERNANDEZ/OneDrive/Screenshots/2025/2025-10/**)",
+      "WebSearch",
+      "Bash(curl:*)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:sablierapp.dev)",
+      "Bash(git clone:*)",
+      "Bash(cat:*)",
+      "Bash(git init:*)",
+      "Bash(git config:*)",
+      "Bash(git add:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

@@ -1,0 +1,276 @@
+openapi: 3.0.3
+info:
+  title: Apache Tika Server API
+  description: |
+    Apache Tika Server provides REST endpoints for document parsing, metadata extraction,
+    MIME type detection, and more. Supports 1000+ file formats including PDF, Office documents,
+    images (with OCR), archives, and more.
+  version: 3.2.3
+  contact:
+    name: Apache Tika
+    url: https://tika.apache.org/
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+
+servers:
+  - url: https://tika.srv759970.hstgr.cloud
+    description: Production server
+
+tags:
+  - name: Core
+    description: Main parsing and extraction endpoints
+  - name: Detection
+    description: MIME type and language detection
+  - name: Metadata
+    description: Metadata extraction
+  - name: Info
+    description: Server information
+
+paths:
+  /version:
+    get:
+      tags:
+        - Info
+      summary: Get Tika version
+      description: Returns the Apache Tika version running on the server
+      operationId: getVersion
+      responses:
+        '200':
+          description: Tika version
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Apache Tika 3.2.3"
+
+  /tika:
+    get:
+      tags:
+        - Info
+      summary: Get server info
+      description: Returns welcome message and server information
+      operationId: getInfo
+      responses:
+        '200':
+          description: Welcome message
+          content:
+            text/plain:
+              schema:
+                type: string
+
+    put:
+      tags:
+        - Core
+      summary: Parse document (extract text)
+      description: |
+        Parses a document and extracts text content. Supports PDF, Office documents,
+        HTML, images with OCR, and 1000+ other formats.
+      operationId: parseDocument
+      requestBody:
+        required: true
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+      responses:
+        '200':
+          description: Extracted text
+          content:
+            text/plain:
+              schema:
+                type: string
+            text/html:
+              schema:
+                type: string
+            text/xml:
+              schema:
+                type: string
+
+  /meta:
+    put:
+      tags:
+        - Metadata
+      summary: Extract metadata
+      description: Extracts metadata from a document (author, title, creation date, etc.)
+      operationId: extractMetadata
+      requestBody:
+        required: true
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+      responses:
+        '200':
+          description: Document metadata
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: string
+              example:
+                "Content-Type": "application/pdf"
+                "Author": "John Doe"
+                "Creation-Date": "2025-01-15T10:30:00Z"
+                "Title": "Sample Document"
+
+  /detect/stream:
+    put:
+      tags:
+        - Detection
+      summary: Detect MIME type
+      description: Detects the MIME type of a file based on content analysis
+      operationId: detectMimeType
+      requestBody:
+        required: true
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+      responses:
+        '200':
+          description: Detected MIME type
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "application/pdf"
+
+  /parsers:
+    get:
+      tags:
+        - Info
+      summary: List available parsers
+      description: Returns a list of all parsers available in this Tika instance
+      operationId: listParsers
+      parameters:
+        - name: Accept
+          in: header
+          required: false
+          schema:
+            type: string
+            enum: [application/json, text/html, text/plain]
+            default: text/html
+      responses:
+        '200':
+          description: List of parsers
+          content:
+            application/json:
+              schema:
+                type: object
+            text/html:
+              schema:
+                type: string
+            text/plain:
+              schema:
+                type: string
+
+  /mime-types:
+    get:
+      tags:
+        - Info
+      summary: List supported MIME types
+      description: Returns a list of all MIME types supported by Tika
+      operationId: listMimeTypes
+      parameters:
+        - name: Accept
+          in: header
+          required: false
+          schema:
+            type: string
+            enum: [application/json, text/html, text/plain]
+            default: text/html
+      responses:
+        '200':
+          description: List of MIME types
+          content:
+            application/json:
+              schema:
+                type: object
+            text/html:
+              schema:
+                type: string
+
+  /rmeta:
+    put:
+      tags:
+        - Metadata
+      summary: Extract recursive metadata
+      description: |
+        Extracts metadata recursively from a document and embedded resources.
+        Useful for archives, emails with attachments, etc.
+      operationId: extractRecursiveMetadata
+      requestBody:
+        required: true
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+      responses:
+        '200':
+          description: Recursive metadata array
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  additionalProperties:
+                    type: string
+
+  /language/stream:
+    post:
+      tags:
+        - Detection
+      summary: Detect language
+      description: Detects the language of text content
+      operationId: detectLanguage
+      requestBody:
+        required: true
+        content:
+          text/plain:
+            schema:
+              type: string
+      responses:
+        '200':
+          description: Detected language code
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "en"
+
+  /unpack:
+    put:
+      tags:
+        - Core
+      summary: Unpack archive
+      description: Extracts files from an archive (ZIP, TAR, etc.)
+      operationId: unpackArchive
+      requestBody:
+        required: true
+        content:
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+      responses:
+        '200':
+          description: Extracted files as archive
+          content:
+            application/zip:
+              schema:
+                type: string
+                format: binary
+            application/x-tar:
+              schema:
+                type: string
+                format: binary
+
+components:
+  schemas: {}

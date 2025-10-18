@@ -1,0 +1,31 @@
+# Secrets and credentials
+.env
+*.env
+.htpasswd
+credentials.json
+*password*
+*token*
+
+# Temporary files
+*.log
+*.tmp
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Backups
+*.backup
+*.bak
+
+# Node modules (if any scripts use Node.js)
+node_modules/
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+Thumbs.db
+desktop.ini
+/sablier-repo/
