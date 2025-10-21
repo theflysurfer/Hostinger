@@ -90,11 +90,17 @@ function getEstimatedStartupTime(serviceName) {
 }
 
 // Start containers
-function startContainers(composeDir, serviceName) {
+function startContainers(composeDir, serviceName, composeFile) {
   console.log(`[${new Date().toISOString()}] 🔄 Starting containers for ${serviceName}...`);
-  exec(`cd ${composeDir} && docker-compose start`, (error, stdout, stderr) => {
+
+  // Use docker-compose up -d --no-recreate to start containers (creates them if they don't exist)
+  const composeFileArg = composeFile ? `-f ${composeFile}` : '';
+  const command = `cd ${composeDir} && docker-compose ${composeFileArg} up -d --no-recreate`;
+
+  exec(command, (error, stdout, stderr) => {
     if (error) {
       console.error(`[${new Date().toISOString()}] ❌ Failed to start ${serviceName}: ${error.message}`);
+      console.error(`[${new Date().toISOString()}] Command: ${command}`);
       return;
     }
     console.log(`[${new Date().toISOString()}] ✅ ${serviceName} started`);
@@ -246,7 +252,7 @@ app.use((req, res) => {
   }
 
   // Containers stopped, start them
-  startContainers(service.composeDir, service.name);
+  startContainers(service.composeDir, service.name, service.composeFile);
 
   if (service.mode === 'async' || service.async) {
     // ASYNC mode (for APIs): return 202 immediately with retry info
