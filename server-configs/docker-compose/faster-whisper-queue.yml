@@ -1,0 +1,87 @@
+version: '3.8'
+
+services:
+  # Original faster-whisper service (unchanged)
+  faster-whisper:
+    image: fedirz/faster-whisper-server:latest-cpu
+    container_name: faster-whisper
+    restart: unless-stopped
+    ports:
+      - '8001:8000'
+    volumes:
+      - /root/.cache/huggingface:/root/.cache/huggingface
+    environment:
+      - WHISPER__MODEL=Systran/faster-whisper-small
+      - WHISPER__INFERENCE_DEVICE=cpu
+      - UVICORN_HOST=0.0.0.0
+      - UVICORN_PORT=8000
+      - TZ=Europe/Paris
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+    logging:
+      driver: json-file
+      options:
+        max-size: '10m'
+        max-file: '3'
+    networks:
+      - faster-whisper-net
+      - whisperx_whisperx  # Connect to shared Redis
+
+  # Queue API wrapper
+  faster-whisper-queue-api:
+    build: .
+    container_name: faster-whisper-queue-api
+    restart: unless-stopped
+    ports:
+      - '8003:8003'
+    environment:
+      - REDIS_URL=redis://rq-queue-redis:6379/1
+      - FASTER_WHISPER_URL=http://faster-whisper:8000
+    depends_on:
+      - faster-whisper
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8003/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    logging:
+      driver: json-file
+      options:
+        max-size: '10m'
+        max-file: '3'
+    networks:
+      - faster-whisper-net
+      - whisperx_whisperx
+    volumes:
+      - /tmp/faster-whisper-uploads:/tmp/uploads
+
+  # RQ Worker for async processing
+  faster-whisper-worker:
+    build: .
+    container_name: faster-whisper-worker
+    restart: unless-stopped
+    command: python worker.py
+    environment:
+      - REDIS_URL=redis://rq-queue-redis:6379/1
+      - FASTER_WHISPER_URL=http://faster-whisper:8000
+    depends_on:
+      - faster-whisper
+    logging:
+      driver: json-file
+      options:
+        max-size: '10m'
+        max-file: '3'
+    networks:
+      - faster-whisper-net
+      - whisperx_whisperx
+
+networks:
+  faster-whisper-net:
+    driver: bridge
+  whisperx_whisperx:
+    external: true  # Connect to existing whisperx network for shared Redis
+

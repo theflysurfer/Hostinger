@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  mkdocs:
+    build: .
+    container_name: mkdocs
+    restart: unless-stopped
+    ports:
+      - '8005:8000'
+    volumes:
+      - ./:/docs
+    environment:
+      - TZ=Europe/Paris

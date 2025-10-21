@@ -71,6 +71,7 @@ nav:
       - Docker: infrastructure/docker.md
       - Nginx: infrastructure/nginx.md
       - Sécurité: infrastructure/security.md
+      - Backup & Restore: infrastructure/backup-restore.md
   
   - Guides - Déploiement:
       - Déploiement VPS: guides/GUIDE_DEPLOIEMENT_VPS.md

@@ -1,0 +1,67 @@
+version: '3.8'
+
+services:
+  neutts-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: neutts-api
+    restart: unless-stopped
+    ports:
+      - "8004:8004"
+    volumes:
+      - ./samples:/app/samples
+      - ./outputs:/app/outputs
+      - neutts-models:/root/.cache/huggingface
+    environment:
+      - PYTHONUNBUFFERED=1
+      - HF_HOME=/root/.cache/huggingface
+    command: uvicorn api:app --host 0.0.0.0 --port 8004 --reload
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8004/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    logging:
+      driver: json-file
+      options:
+        max-size: '10m'
+        max-file: '3'
+
+  neutts-streamlit:
+    image: python:3.11-slim
+    container_name: neutts-streamlit
+    restart: unless-stopped
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./streamlit_app.py:/app/streamlit_app.py
+      - ./samples:/app/samples
+    working_dir: /app
+    environment:
+      - NEUTTS_API_URL=http://neutts-api:8004
+    command: >
+      sh -c "pip install --no-cache-dir streamlit requests &&
+             streamlit run streamlit_app.py --server.port 8501 --server.address 0.0.0.0"
+    depends_on:
+      - neutts-api
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8501/_stcore/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    logging:
+      driver: json-file
+      options:
+        max-size: '10m'
+        max-file: '3'
+
+volumes:
+  neutts-models:
+    driver: local
+
+networks:
+  default:
+    name: neutts-network
