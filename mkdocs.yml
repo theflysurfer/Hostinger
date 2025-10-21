@@ -1,0 +1,114 @@
+site_name: srv759970 Documentation
+site_url: https://docs.srv759970.hstgr.cloud
+site_description: Documentation technique complète pour l'infrastructure srv759970
+repo_url: https://github.com/julienfernandez/hostinger
+repo_name: hostinger
+
+theme:
+  name: material
+  language: fr
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Mode sombre
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Mode clair
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - search.share
+    - content.code.copy
+    - content.code.annotate
+
+plugins:
+  - search:
+      lang: fr
+  - minify:
+      minify_html: true
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - admonition
+  - pymdownx.details
+  - attr_list
+  - md_in_html
+  - tables
+
+nav:
+  - Accueil: index.md
+  
+  - Services:
+      - Dashy Portal: services/dashy-portal.md
+      - WhisperX: services/whisperx.md
+      - Faster-Whisper Queue: services/faster-whisper-queue.md
+      - Monitoring: services/monitoring.md
+      - Tika: services/tika.md
+      - Ollama: services/ollama.md
+  
+  - Infrastructure:
+      - Docker: infrastructure/docker.md
+      - Nginx: infrastructure/nginx.md
+      - Sécurité: infrastructure/security.md
+  
+  - Guides - Déploiement:
+      - Déploiement VPS: guides/GUIDE_DEPLOIEMENT_VPS.md
+      - Résumé Déploiement Oct 2025: guides/deployment-summary.md
+      - Docker Autostart: guides/GUIDE_DOCKER_AUTOSTART.md
+      - Services Systemd: guides/GUIDE_SERVICES_SYSTEMD.md
+  
+  - Guides - Services:
+      - Basic Auth: guides/GUIDE_BASIC_AUTH.md
+      - Email: guides/GUIDE_EMAIL.md
+      - Nginx Troubleshooting: guides/GUIDE_TROUBLESHOOTING_NGINX.md
+      - Sécurité Automation User: guides/GUIDE_SECURITE_AUTOMATION_USER.md
+  
+  - Guides - Applications:
+      - Astro SSG: guides/GUIDE_ASTRO.md
+      - N8N Setup: guides/GUIDE_N8N_SETUP.md
+      - Ollama: guides/GUIDE_OLLAMA.md
+      - RustDesk: guides/GUIDE_RUSTDESK.md
+      - Strapi CMS: guides/GUIDE_STRAPI.md
+      - Tika: guides/GUIDE_TIKA.md
+      - Whisper Services: guides/GUIDE_WHISPER_SERVICES.md
+  
+  - Guides - WordPress:
+      - WordPress Docker: guides/GUIDE_WORDPRESS_DOCKER.md
+      - WordPress Multisite: guides/GUIDE_WORDPRESS_MULTISITE.md
+      - WordPress Cache: guides/GUIDE_CACHE_WORDPRESS.md
+  
+  - Guides - AI/RAG:
+      - Jitsi Intelligent Transcription: guides/ANALYSE_JITSI_WITH_INTELLIGENT_TRANSCRIPTION.md
+      - RAGFlow & RAGAnything: guides/GUIDE_RAGFLOW_RAGANYTHING.md
+      - VideoRAG: guides/GUIDE_VIDEORAG.md
+      - VideoRAG Docker: guides/GUIDE_VIDEORAG_DOCKER.md
+  
+  - Guides - Outils:
+      - API Portal: guides/GUIDE_API_PORTAL.md
+      - Cloudflare Setup: guides/GUIDE_CLOUDFLARE_SETUP.md
+      - MCP Servers: guides/GUIDE_MCP_SERVERS.md
+      - Photo Management (Dropbox/DigiKam): guides/GUIDE_PHOTO_MANAGEMENT_DROPBOX_DIGIKAM.md
+
+  - Analyses:
+      - Stratégie Auth (OAuth vs Basic Auth): analysis/auth-strategy-oauth-vs-basic.md
