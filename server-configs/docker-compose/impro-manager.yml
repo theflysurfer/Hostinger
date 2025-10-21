@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  impro-manager:
+    build: .
+    container_name: impro-manager
+    restart: "no"  # Required for auto-start/stop system
+    ports:
+      - "8504:3001"
+    volumes:
+      # Data persistence
+      - ./data:/app/data
+      - /opt/impro-manager/logs:/app/logs
+      - /opt/impro-manager/uploads:/app/uploads
+      # Music from Dropbox (via rclone mount)
+      - /opt/impro-manager/music:/app/public/music:ro
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+      - TZ=Europe/Paris
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3001/api/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s

@@ -1,0 +1,30 @@
+version: "3.8"
+
+services:
+  rag-anything:
+    build:
+      context: .
+      dockerfile: Dockerfile.optimized
+    container_name: rag-anything-api
+    ports:
+      - "9510:9510"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENAI_BASE_URL=${OPENAI_BASE_URL:-}
+      - LLM_MODEL=${LLM_MODEL:-gpt-4o-mini}
+      - VISION_MODEL=${VISION_MODEL:-gpt-4o}
+      - EMBEDDING_MODEL=${EMBEDDING_MODEL:-text-embedding-3-large}
+      - EMBEDDING_DIM=${EMBEDDING_DIM:-3072}
+      - MAX_TOKEN_SIZE=${MAX_TOKEN_SIZE:-8192}
+      - WORKING_DIR=/app/rag_storage
+      - OUTPUT_DIR=/app/output
+    volumes:
+      - rag-anything-storage:/app/rag_storage
+      - rag-anything-output:/app/output
+    restart: unless-stopped
+
+volumes:
+  rag-anything-storage:
+    driver: local
+  rag-anything-output:
+    driver: local

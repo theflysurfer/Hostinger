@@ -1,0 +1,58 @@
+services:
+  mysql-panneauxsolidaires:
+    image: mysql:8.0
+    container_name: mysql-panneauxsolidaires
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: panneauxsolidaires_db
+      MYSQL_USER: panneauxsolidaires_user
+      MYSQL_PASSWORD: ${WP_DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - mysql-panneauxsolidaires-data:/var/lib/mysql
+    networks:
+      - panneauxsolidaires-network
+    command: --default-authentication-plugin=mysql_native_password
+
+  wordpress-panneauxsolidaires:
+    image: wordpress:php8.3-fpm
+    container_name: wordpress-panneauxsolidaires
+    restart: unless-stopped
+    user: "33:33"
+    depends_on:
+      - mysql-panneauxsolidaires
+    environment:
+      WORDPRESS_DB_HOST: mysql-panneauxsolidaires:3306
+      WORDPRESS_DB_USER: panneauxsolidaires_user
+      WORDPRESS_DB_PASSWORD: ${WP_DB_PASSWORD}
+      WORDPRESS_DB_NAME: panneauxsolidaires_db
+      WORDPRESS_CONFIG_EXTRA: |
+        define('FS_METHOD', 'direct');
+        define('WP_MEMORY_LIMIT', '256M');
+        define('WP_MAX_MEMORY_LIMIT', '512M');
+    volumes:
+      - wordpress-panneauxsolidaires-data:/var/www/html
+    networks:
+      - panneauxsolidaires-network
+
+  nginx-panneauxsolidaires:
+    image: nginx:alpine
+    container_name: nginx-panneauxsolidaires
+    restart: unless-stopped
+    depends_on:
+      - wordpress-panneauxsolidaires
+    ports:
+      - "9004:80"
+    volumes:
+      - wordpress-panneauxsolidaires-data:/var/www/html:ro
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    networks:
+      - panneauxsolidaires-network
+
+networks:
+  panneauxsolidaires-network:
+    driver: bridge
+
+volumes:
+  mysql-panneauxsolidaires-data:
+  wordpress-panneauxsolidaires-data:

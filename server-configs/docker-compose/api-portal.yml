@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  swagger-ui:
+    image: swaggerapi/swagger-ui:v5.11.0
+    container_name: swagger-ui
+    ports:
+      - "8503:8080"
+    volumes:
+      - ./openapi-specs:/usr/share/nginx/html/specs:ro
+    environment:
+      - SWAGGER_JSON=/specs/tika.yaml
+      - URLS=[{"url":"/specs/tika.yaml","name":"Tika API"},{"url":"/specs/ollama.yaml","name":"Ollama API"},{"url":"https://whisper.srv759970.hstgr.cloud/openapi.json","name":"Whisper API (faster-whisper)"},{"url":"https://whisperx.srv759970.hstgr.cloud/openapi.json","name":"WhisperX API (with diarization)"}]
+      - TZ=Europe/Paris
+    restart: unless-stopped

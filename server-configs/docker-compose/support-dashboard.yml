@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  dashboard:
+    build: .
+    container_name: support-dashboard
+    ports:
+      - "8501:8501"
+    volumes:
+      # Montage de la BDD pour pouvoir la mettre à jour sans rebuild
+      - ./data/tickets.db:/app/data/tickets.db
+    restart: "no"
+    environment:
+      - TZ=Europe/Paris

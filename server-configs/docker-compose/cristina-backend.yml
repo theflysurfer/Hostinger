@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  strapi:
+    build: .
+    container_name: cristina-strapi
+    ports:
+      - "1337:1337"
+    volumes:
+      - ./data:/app/.tmp
+      - ./uploads:/app/public/uploads
+    restart: "no"
+    environment:
+      - NODE_ENV=production
+      - TZ=Europe/Paris
+      - STRAPI_ADMIN_BACKEND_URL=https://strapi.srv759970.hstgr.cloud
+      - HOST=0.0.0.0
+      - PORT=1337
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:1337/_health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 60s

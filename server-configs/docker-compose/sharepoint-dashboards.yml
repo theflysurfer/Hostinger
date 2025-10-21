@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  sharepoint-dashboards:
+    build: .
+    container_name: sharepoint-dashboards
+    ports:
+      - "8502:80"
+    restart: "no"
+    environment:
+      - TZ=Europe/Paris
