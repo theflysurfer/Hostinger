@@ -318,6 +318,26 @@ Créer des scripts d'audit qui croisent les 3 sources:
 - config.json services
 - Docker containers running
 
+### 4. Cache Nginx + Autostart = INCOMPATIBLE
+**Problème**: Le cache Nginx sert du contenu statique même quand les conteneurs sont arrêtés
+**Résultat**: docker-autostart n'est JAMAIS appelé, les conteneurs restent arrêtés
+**Solution**: TOUJOURS désactiver `proxy_cache` pour les services utilisant autostart
+
+### 5. Debug méthodique des problèmes de proxy
+Quand une page incorrecte persiste malgré les changements:
+1. **Test direct backend** (`curl localhost:8890 -H 'Host: ...'`) - Isole le problème
+2. **Si backend OK mais HTTPS KO** → Problème dans Nginx
+3. **Vérifier modules globaux** (`/etc/nginx/nginx.conf`) - Pas seulement vhosts
+4. **Reload effectif** - Parfois plusieurs reload nécessaires pour processus workers
+
+### 6. WordPress moderne avec WP-CLI
+**Architecture recommandée 2025**:
+- WordPress FPM (pas Apache) pour meilleures performances
+- Nginx avec FastCGI vers PHP-FPM
+- WP-CLI pour installation/gestion automatisée
+- Conteneurs séparés: MySQL, WordPress, Nginx, WP-CLI
+- `restart: "no"` pour compatibilité autostart
+
 ---
 
 ## ✅ Finalisation - 2025-10-21 (Suite)
@@ -336,15 +356,87 @@ Créer des scripts d'audit qui croisent les 3 sources:
 2. ✅ **SharePoint Dashboards** (Streamlit) - Containers created
 3. ✅ **Cristina Strapi CMS** - Containers created
 4. ✅ **RAGFlow** (with docker-compose-full.yml) - 5 containers created (server, MySQL, Redis, Elasticsearch, MinIO)
-5. ⚠️ **SolidarLink** - Nécessite vérification manuelle
+5. ✅ **SolidarLink** - Complètement reconstruit (voir section ci-dessous)
 
 **Note importante**: Les conteneurs sont créés puis immédiatement arrêtés. C'est le comportement attendu pour docker-autostart - ils seront démarrés automatiquement lors de la première requête HTTP.
 
-### Nettoyage Sablier final
+### Reconstruction complète de SolidarLink
 
-**Fichiers nettoyés**:
-- `/opt/wordpress-solidarlink/docker-compose.yml` - Supprimé toutes références sablier-network
-- `/opt/tika-server/docker-compose.yml` - Complètement réécrit sans Sablier
+**Contexte**: SolidarLink était compromis ("vérolé") et nécessitait une reconstruction complète.
+
+**Actions effectuées**:
+1. **Backup et suppression** de l'ancien site:
+   - Ancien dossier renommé en `wordpress-solidarlink.old_TIMESTAMP`
+   - Base de données conservée mais non réutilisée
+
+2. **Création nouveau stack WordPress moderne**:
+   ```yaml
+   - MySQL 8.0 (nouveau container dédié)
+   - WordPress php8.3-fpm (architecture moderne)
+   - Nginx Alpine (FastCGI vers PHP-FPM)
+   - WP-CLI php8.3 (pour installation automatisée)
+   ```
+
+3. **Installation WordPress via WP-CLI**:
+   ```bash
+   docker exec wp-cli-solidarlink wp core install \
+     --url='https://solidarlink.srv759970.hstgr.cloud' \
+     --title='SolidarLink' \
+     --admin_user='admin' \
+     --admin_password='SolidarLinkAdmin2025!' \
+     --admin_email='julien@julienfernandez.xyz'
+   ```
+
+4. **Configuration pour autostart**:
+   - `restart: "no"` sur tous les conteneurs
+   - Port 9003 maintenu
+   - Theme "hacker-terminal" configuré
+
+**Fichiers créés**:
+- `/opt/wordpress-solidarlink/docker-compose.yml` - Stack complet
+- `/opt/wordpress-solidarlink/nginx.conf` - Config FastCGI
+- Volumes Docker: `wordpress-data` et `mysql-data`
+
+**Identifiants admin**:
+- URL: https://solidarlink.srv759970.hstgr.cloud/wp-admin
+- User: admin
+- Password: SolidarLinkAdmin2025!
+
+### Désactivation complète du système Sablier
+
+**Problème découvert**: Malgré la suppression du cache Nginx et la reconstruction de SolidarLink, les pages Sablier persistaient.
+
+**Investigation en profondeur**:
+1. Test direct docker-autostart (`:8890`) → ✅ Retournait WordPress correctement
+2. Test via HTTPS Nginx → ❌ Retournait toujours page Sablier
+3. **Conclusion**: Le problème était dans la couche Nginx, pas dans docker-autostart
+
+**Root cause identifiée**: Module JavaScript Sablier chargé globalement dans Nginx
+- Fichier: `/etc/nginx/conf.d/sablier.js` (ancien système Sablier)
+- Import global: `/etc/nginx/nginx.conf` ligne 13: `js_import conf.d/sablier.js;`
+- Ce module interceptait les requêtes AVANT qu'elles n'atteignent docker-autostart
+
+**Solution appliquée**:
+```bash
+# Commenté l'import global du module Sablier
+sed -i '13s/^/# /' /etc/nginx/nginx.conf
+# Ligne 13: js_import conf.d/sablier.js;  →  # js_import conf.d/sablier.js;
+
+# Reload Nginx
+nginx -t && systemctl reload nginx
+```
+
+**Résultat**:
+- ✅ SolidarLink fonctionne via HTTPS (WordPress affiché)
+- ✅ Clemence fonctionne également
+- ✅ Système docker-autostart opérationnel pour tous les services
+
+**Fichiers modifiés**:
+- `/etc/nginx/nginx.conf` - Ligne 13 commentée (Sablier désactivé globalement)
+- `/etc/nginx/sites-available/solidarlink` - Cache Nginx complètement supprimé
+- `/etc/nginx/sites-available/clemence` - Cache Nginx complètement supprimé
+- `/opt/wordpress-solidarlink/docker-compose.yml` - Nouveau stack sans Sablier
+- `/opt/tika-server/docker-compose.yml` - Réécrit sans Sablier
 
 **Commits Git**:
 - `9b21415` - docker autostart server.js improvements
@@ -366,21 +458,27 @@ Créer des scripts d'audit qui croisent les 3 sources:
 ## 🔮 Prochaines étapes (optionnel)
 
 1. **Nextcloud**: Investiguer pourquoi pas de site Nginx, ajouter si nécessaire
-2. **SolidarLink**: Vérifier manuellement la création des conteneurs
-3. **Tests complets**: Re-tester tous les 18 services autostart après déploiement conteneurs
-4. **Monitoring**: Ajouter métriques Prometheus pour autostart (temps de démarrage, requêtes 202, etc.)
-5. **Alerting**: Notifier si un service ne démarre pas après N tentatives
-6. **Cron sync**: Automatiser `sync-autostart-config.sh` en daily cron
-7. **Health checks avancés**: Vérifier endpoints applicatifs, pas juste containers running
+2. **Tests complets**: Re-tester tous les 18 services autostart
+3. **Monitoring**: Ajouter métriques Prometheus pour autostart (temps de démarrage, requêtes 202, etc.)
+4. **Alerting**: Notifier si un service ne démarre pas après N tentatives
+5. **Cron sync**: Automatiser `sync-autostart-config.sh` en daily cron
+6. **Health checks avancés**: Vérifier endpoints applicatifs, pas juste containers running
+7. **Backup automatique**: Sauvegarder volumes WordPress avant modifications (lesson learned)
 
 ---
 
-**Version**: 2.0.1
+**Version**: 2.0.2
 **Status**: ✅ PROD
-**Deployed**: ✅ 18 services configurés, conteneurs créés
-**Tested**: ✅ Dashy, WhisperX, MkDocs, Clémence (4/18)
-**Remaining**: Re-test 14 services après création conteneurs
-**Documentation**: ✅ Complète et synchronisée
-**Commits**:
+**Deployed**: ✅ 18 services configurés, tous conteneurs créés
+**Tested**: ✅ SolidarLink, Clemence, Dashy, WhisperX, MkDocs (5/18)
+**Issues résolus**:
+- ✅ Sablier complètement désactivé
+- ✅ Cache Nginx incompatible documenté et supprimé
+- ✅ SolidarLink reconstruit from scratch
+**Documentation**: ✅ Complète et synchronisée avec toutes les leçons apprises
+**Commits à faire**:
+- Sync server-configs (docker-compose.yml SolidarLink)
+- Update changelog (ce fichier)
+**Commits précédents**:
 - `9b21415` - docker autostart improvements
 - `76b22a4` - remove Sablier references
