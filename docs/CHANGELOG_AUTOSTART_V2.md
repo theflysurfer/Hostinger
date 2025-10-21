@@ -320,17 +320,67 @@ Créer des scripts d'audit qui croisent les 3 sources:
 
 ---
 
-## 🔮 Prochaines étapes (optionnel)
+## ✅ Finalisation - 2025-10-21 (Suite)
 
-1. **Nextcloud**: Investiguer pourquoi pas de site Nginx, ajouter si nécessaire
-2. **Monitoring**: Ajouter métriques Prometheus pour autostart (temps de démarrage, requêtes 202, etc.)
-3. **Alerting**: Notifier si un service ne démarre pas après N tentatives
-4. **Cron sync**: Automatiser `sync-autostart-config.sh` en daily cron
-5. **Health checks avancés**: Vérifier endpoints applicatifs, pas juste containers running
+### Déploiement des conteneurs manquants
+
+**Problème identifié**: De nombreux services n'avaient jamais eu leurs conteneurs créés.
+
+**Action**: Script de création automatique de tous les conteneurs manquants:
+```bash
+/tmp/create-missing-containers.sh
+```
+
+**Services déployés** (containers créés et arrêtés pour autostart):
+1. ✅ **Support Dashboard** (Streamlit) - Image built, containers created
+2. ✅ **SharePoint Dashboards** (Streamlit) - Containers created
+3. ✅ **Cristina Strapi CMS** - Containers created
+4. ✅ **RAGFlow** (with docker-compose-full.yml) - 5 containers created (server, MySQL, Redis, Elasticsearch, MinIO)
+5. ⚠️ **SolidarLink** - Nécessite vérification manuelle
+
+**Note importante**: Les conteneurs sont créés puis immédiatement arrêtés. C'est le comportement attendu pour docker-autostart - ils seront démarrés automatiquement lors de la première requête HTTP.
+
+### Nettoyage Sablier final
+
+**Fichiers nettoyés**:
+- `/opt/wordpress-solidarlink/docker-compose.yml` - Supprimé toutes références sablier-network
+- `/opt/tika-server/docker-compose.yml` - Complètement réécrit sans Sablier
+
+**Commits Git**:
+- `9b21415` - docker autostart server.js improvements
+- `76b22a4` - remove obsolete Sablier references from docker-compose
+
+### Ajout headers Nginx manquants
+
+**Problème**: 17 sites Nginx utilisaient `proxy_pass http://127.0.0.1:8890` mais sans le header `X-Autostart-Target`
+
+**Solution**: Script automatique d'ajout des headers:
+```bash
+/tmp/add-autostart-headers.sh
+```
+
+**Résultat**: 17 sites Nginx mis à jour avec le bon header de routage
 
 ---
 
-**Version**: 2.0
+## 🔮 Prochaines étapes (optionnel)
+
+1. **Nextcloud**: Investiguer pourquoi pas de site Nginx, ajouter si nécessaire
+2. **SolidarLink**: Vérifier manuellement la création des conteneurs
+3. **Tests complets**: Re-tester tous les 18 services autostart après déploiement conteneurs
+4. **Monitoring**: Ajouter métriques Prometheus pour autostart (temps de démarrage, requêtes 202, etc.)
+5. **Alerting**: Notifier si un service ne démarre pas après N tentatives
+6. **Cron sync**: Automatiser `sync-autostart-config.sh` en daily cron
+7. **Health checks avancés**: Vérifier endpoints applicatifs, pas juste containers running
+
+---
+
+**Version**: 2.0.1
 **Status**: ✅ PROD
-**Tested**: ✅ Dashy, WhisperX, MemVid
+**Deployed**: ✅ 18 services configurés, conteneurs créés
+**Tested**: ✅ Dashy, WhisperX, MkDocs, Clémence (4/18)
+**Remaining**: Re-test 14 services après création conteneurs
 **Documentation**: ✅ Complète et synchronisée
+**Commits**:
+- `9b21415` - docker autostart improvements
+- `76b22a4` - remove Sablier references
