@@ -19,10 +19,7 @@ services:
     networks:
       - solidarlink-network
       - wordpress-shared-network
-      - sablier-network
     labels:
-      - sablier.enable=true
-      - sablier.group=wordpress-sites
 
   nginx:
     image: nginx:alpine
@@ -37,10 +34,7 @@ services:
       - wordpress
     networks:
       - solidarlink-network
-      - sablier-network
     labels:
-      - sablier.enable=true
-      - sablier.group=wordpress-sites
 
 networks:
   solidarlink-network:
@@ -48,6 +42,3 @@ networks:
   wordpress-shared-network:
     external: true
     name: wordpress-shared-network
-  sablier-network:
-    external: true
-    name: sablier-network

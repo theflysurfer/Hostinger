@@ -15,13 +15,3 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
-    labels:
-      - sablier.enable=true
-      - sablier.group=api-services
-    networks:
-      - sablier-network
-
-networks:
-  sablier-network:
-    external: true
-    name: sablier-network
