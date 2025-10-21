@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  memvid-api:
+    build: .
+    container_name: memvid-api
+    restart: "no"  # Required for auto-start system
+    ports:
+      - "8504:8503"
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+      - ./config:/app/config
+    environment:
+      - TZ=Europe/Paris
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - memvid-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8503/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  memvid-network:
+    driver: bridge

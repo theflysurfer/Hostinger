@@ -28,4 +28,8 @@ node_modules/
 # OS files
 Thumbs.db
 desktop.ini
-/sablier-repo/
+
+# Temporary files patterns
+temp_*
+*_temp.*
+*_updated.*

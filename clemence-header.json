@@ -1,0 +1,72 @@
+{
+  "version": "0.4",
+  "title": "Header Clemence",
+  "type": "header",
+  "content": [
+    {
+      "id": "header-section",
+      "settings": {
+        "_background_background": "gradient",
+        "_background_gradient_color": "#5B2E7F",
+        "_background_gradient_color_b": "#3D1B5D",
+        "_background_gradient_angle": {
+          "unit": "deg",
+          "size": 135
+        },
+        "padding": {
+          "unit": "px",
+          "top": "20",
+          "right": "40",
+          "bottom": "20",
+          "left": "40"
+        },
+        "position": "relative",
+        "overflow": "hidden"
+      },
+      "elements": [
+        {
+          "id": "organic-shape-1",
+          "widgetType": "html",
+          "settings": {
+            "html": "<style>\n.organic-shape-header {\n  position: absolute;\n  width: 300px;\n  height: 300px;\n  background: radial-gradient(circle, #FF8C42, #F5A623);\n  border-radius: 48% 52% 57% 43% / 45% 48% 52% 55%;\n  top: -100px;\n  right: -50px;\n  opacity: 0.3;\n  animation: morphHeader 15s ease-in-out infinite;\n  z-index: 0;\n}\n\n@keyframes morphHeader {\n  0%, 100% {\n    border-radius: 48% 52% 57% 43% / 45% 48% 52% 55%;\n    transform: rotate(0deg) scale(1);\n  }\n  25% {\n    border-radius: 35% 65% 72% 28% / 61% 39% 61% 39%;\n    transform: rotate(90deg) scale(1.1);\n  }\n  50% {\n    border-radius: 72% 28% 35% 65% / 39% 61% 39% 61%;\n    transform: rotate(180deg) scale(0.9);\n  }\n  75% {\n    border-radius: 28% 72% 65% 35% / 61% 39% 61% 39%;\n    transform: rotate(270deg) scale(1.05);\n  }\n}\n</style>\n<div class=\"organic-shape-header\"></div>"
+          }
+        },
+        {
+          "id": "logo-container",
+          "widgetType": "heading",
+          "settings": {
+            "title": "Clémence",
+            "header_size": "h1",
+            "color": "#FFF8E7",
+            "typography_font_family": "Fraunces",
+            "typography_font_weight": "700",
+            "typography_font_size": {
+              "unit": "px",
+              "size": 32
+            },
+            "_position": "relative",
+            "z_index": 10
+          }
+        },
+        {
+          "id": "nav-menu",
+          "widgetType": "nav-menu",
+          "settings": {
+            "layout": "horizontal",
+            "align_items": "center",
+            "pointer": "underline",
+            "color_text": "#FFF8E7",
+            "color_text_hover": "#FF8C42",
+            "typography_font_family": "Space Grotesk",
+            "typography_font_size": {
+              "unit": "px",
+              "size": 16
+            },
+            "_position": "relative",
+            "z_index": 10
+          }
+        }
+      ]
+    }
+  ]
+}

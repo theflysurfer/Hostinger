@@ -1,0 +1,23 @@
+# Audio samples (gros fichiers)
+audio_samples/*.m4a
+audio_samples/*.mp3
+audio_samples/*.wav
+audio_samples/*.ogg
+
+# Résultats (peuvent être volumineux)
+results/*.json
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+venv/
+env/
+*.egg-info/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo

@@ -8,19 +8,20 @@ Documentation complète pour le déploiement et la gestion d'applications sur le
 
 | Fichier | Description | Public cible |
 |---------|-------------|--------------|
-| **GUIDE_DEPLOIEMENT_VPS.md** | Déploiement d'applications Docker (Streamlit, Flask, React...) | Humains et LLM |
-| **GUIDE_SERVICES_SYSTEMD.md** | Déploiement de services systemd (Ollama, PostgreSQL...) | Humains et LLM |
-| **GUIDE_NGINX.md** | Configuration Nginx (sites statiques, reverse proxy, multi-sites) | Humains et LLM |
-| **GUIDE_TROUBLESHOOTING_NGINX.md** | 🆕 Problèmes Nginx courants et solutions (SNI, SSL, redirections) | Humains et LLM |
-| **GUIDE_WORDPRESS_DOCKER.md** | 🆕 WordPress en Docker (PHP-FPM, MySQL, permissions, migration complète, bonnes pratiques) | Humains et LLM |
-| **GUIDE_WORDPRESS_MULTISITE.md** | Installation et configuration WordPress multisite | Humains et LLM |
-| **GUIDE_ASTRO.md** | Déploiement sites Astro (SSG, build statique, troubleshooting) | Humains et LLM |
-| **GUIDE_STRAPI.md** | Déploiement Strapi CMS (Docker, Node 22, solutions bugs Vite) | Humains et LLM |
-| **GUIDE_TIKA.md** | 🆕 Apache Tika Server - Document parsing API (PDF, Office, OCR) | Humains et LLM |
-| **GUIDE_WHISPER_SERVICES.md** | 🆕 Whisper APIs - Speech-to-text (faster-whisper + WhisperX diarization) | Humains et LLM |
-| **GUIDE_API_PORTAL.md** | 🆕 API & Admin Portal - Swagger UI + Monitoring (Portainer, Dozzle, Netdata) | Humains et LLM |
-| **GUIDE_EMAIL.md** | 🆕 Serveur email Postfix + OpenDKIM (SMTP, SPF/DKIM/DMARC, WordPress) | Humains et LLM |
-| **GUIDE_DOCKER_AUTOSTART.md** | 🆕 Auto-start/stop Docker - Économise RAM (pages d'attente, mode blocking) | Humains et LLM |
+| **docs/guides/GUIDE_DEPLOIEMENT_VPS.md** | Déploiement d'applications Docker (Streamlit, Flask, React...) | Humains et LLM |
+| **docs/guides/GUIDE_SERVICES_SYSTEMD.md** | Déploiement de services systemd (Ollama, PostgreSQL...) | Humains et LLM |
+| **docs/guides/GUIDE_NGINX.md** | Configuration Nginx (sites statiques, reverse proxy, multi-sites) | Humains et LLM |
+| **docs/guides/GUIDE_TROUBLESHOOTING_NGINX.md** | 🆕 Problèmes Nginx courants et solutions (SNI, SSL, redirections) | Humains et LLM |
+| **docs/guides/GUIDE_WORDPRESS_DOCKER.md** | 🆕 WordPress en Docker (PHP-FPM, MySQL, permissions, migration complète, bonnes pratiques) | Humains et LLM |
+| **docs/guides/GUIDE_WORDPRESS_MULTISITE.md** | Installation et configuration WordPress multisite | Humains et LLM |
+| **docs/guides/GUIDE_ASTRO.md** | Déploiement sites Astro (SSG, build statique, troubleshooting) | Humains et LLM |
+| **docs/guides/GUIDE_STRAPI.md** | Déploiement Strapi CMS (Docker, Node 22, solutions bugs Vite) | Humains et LLM |
+| **docs/guides/GUIDE_TIKA.md** | 🆕 Apache Tika Server - Document parsing API (PDF, Office, OCR) | Humains et LLM |
+| **docs/guides/GUIDE_WHISPER_SERVICES.md** | 🆕 Whisper APIs - Speech-to-text (faster-whisper + WhisperX diarization) | Humains et LLM |
+| **docs/GUIDE_MONITORING_WHISPERX.md** | 🆕 **Monitoring WhisperX** - Grafana + Prometheus + Loki (métriques + logs temps réel) | Humains et LLM |
+| **docs/guides/GUIDE_API_PORTAL.md** | 🆕 API & Admin Portal - Swagger UI + Monitoring (Portainer, Dozzle, Netdata) | Humains et LLM |
+| **docs/guides/GUIDE_EMAIL.md** | 🆕 Serveur email Postfix + OpenDKIM (SMTP, SPF/DKIM/DMARC, WordPress) | Humains et LLM |
+| **docs/guides/GUIDE_DOCKER_AUTOSTART.md** | 🆕 Auto-start/stop Docker - Économise RAM (pages d'attente, mode blocking) | Humains et LLM |
 | **INSTRUCTIONS_LLM.md** | Workflows et règles pour assistants IA (principe DRY) | LLM uniquement |
 | **README.md** | Ce fichier - Vue d'ensemble | Tous |
 
@@ -34,24 +35,24 @@ Documentation complète pour le déploiement et la gestion d'applications sur le
 
 ```bash
 # Déployer une nouvelle application
-deploy.bat
+scripts/deploy.bat
 
 # Mettre à jour une application existante
-update.bat
+scripts/update.bat
 
 # Gérer les applications (logs, redémarrer, etc.)
-manage.bat
+scripts/manage.bat
 ```
 
 ### Pour un humain
 
 **Application Docker** (Streamlit, Flask, React, etc.) :
-1. Ouvrez **GUIDE_DEPLOIEMENT_VPS.md**
+1. Ouvrez **docs/guides/GUIDE_DEPLOIEMENT_VPS.md**
 2. Suivez la section "Déployer une nouvelle application"
 3. Utilisez les templates fournis
 
 **Service systemd** (Ollama, PostgreSQL, etc.) :
-1. Ouvrez **GUIDE_SERVICES_SYSTEMD.md**
+1. Ouvrez **docs/guides/GUIDE_SERVICES_SYSTEMD.md**
 2. Suivez les exemples (ex: Ollama)
 3. Adaptez à votre service
 
@@ -94,12 +95,18 @@ manage.bat
 | Netdata (System Monitor) | Docker | 19999 | ✅ En ligne | Container: netdata |
 | Postfix Email Server | Systemd | 25, 587 | ✅ En ligne | `postfix.service` |
 | OpenDKIM | Systemd | - | ✅ En ligne | `opendkim.service` |
+| **RAGFlow** | **Docker** | **9500, 9501** | ✅ **En ligne** | `/opt/ragflow/` |
+| **RAG-Anything API** | **Docker** | **9510** | 🔄 **Déploiement** | `/opt/rag-anything/` |
+| **Grafana (Monitoring)** | **Docker** | **3001** | ✅ **En ligne** | `/opt/monitoring/` |
+| **Prometheus** | **Docker** | **9090** | ✅ **En ligne** | `/opt/monitoring/` |
+| **Loki** | **Docker** | **3100** | ✅ **En ligne** | `/opt/monitoring/` |
+| **RQ Exporter** | **Docker** | **9726** | ✅ **En ligne** | `/opt/monitoring/` |
 
 ### Ports disponibles
 
-- `8503` ➡️ Disponible
-- `8504` ➡️ Disponible
-- `8505` ➡️ Disponible
+- `9520` ➡️ Disponible
+- `9530` ➡️ Disponible
+- `9540` ➡️ Disponible
 - ...
 
 ---
@@ -129,6 +136,9 @@ https://hpanel.hostinger.com/
 - **Ollama API** : http://69.62.108.82:11435
 - **Apache Tika API** : https://tika.srv759970.hstgr.cloud
 - **🎯 API & Admin Portal** : https://portal.srv759970.hstgr.cloud
+- **🤖 RAGFlow** : https://ragflow.srv759970.hstgr.cloud
+- **🎨 RAG-Anything API** : https://rag-anything.srv759970.hstgr.cloud (en cours de déploiement)
+- **📊 Grafana Monitoring** : https://monitoring.srv759970.hstgr.cloud (admin / YourSecurePassword2025!)
 
 ---
 
@@ -153,7 +163,7 @@ Script interactif qui automatise **tout le workflow** de déploiement :
 **Utilisation** :
 ```bash
 cd C:\Users\JulienFernandez\OneDrive\Coding\_référentiels de code\Hostinger
-deploy.bat
+scripts\deploy.bat
 ```
 
 Suivez simplement les questions à l'écran !
@@ -174,7 +184,7 @@ Met à jour une application déjà déployée.
 
 **Utilisation** :
 ```bash
-update.bat
+scripts\update.bat
 ```
 
 ---
@@ -195,7 +205,7 @@ Interface interactive pour gérer toutes vos applications.
 
 **Utilisation** :
 ```bash
-manage.bat
+scripts\manage.bat
 ```
 
 Un menu interactif s'affiche, choisissez simplement l'action.
@@ -295,7 +305,7 @@ systemctl status docker-autostart
 cd /opt/support-dashboard && docker-compose stop
 ```
 
-**Documentation complète** : [GUIDE_DOCKER_AUTOSTART.md](GUIDE_DOCKER_AUTOSTART.md)
+**Documentation complète** : [GUIDE_DOCKER_AUTOSTART.md](docs/guides/GUIDE_DOCKER_AUTOSTART.md)
 
 ---
 
@@ -303,19 +313,20 @@ cd /opt/support-dashboard && docker-compose stop
 
 Consultez les guides détaillés :
 
-- **[GUIDE_DEPLOIEMENT_VPS.md](GUIDE_DEPLOIEMENT_VPS.md)** - Déploiement Docker (Streamlit, Flask, React...)
-- **[GUIDE_SERVICES_SYSTEMD.md](GUIDE_SERVICES_SYSTEMD.md)** - Services systemd (Ollama, PostgreSQL...)
-- **[GUIDE_NGINX.md](GUIDE_NGINX.md)** - Configuration Nginx (sites statiques, reverse proxy, troubleshooting)
-- **[GUIDE_TROUBLESHOOTING_NGINX.md](GUIDE_TROUBLESHOOTING_NGINX.md)** - 🆕 Résolution de problèmes Nginx (SNI, SSL, redirections)
-- **[GUIDE_WORDPRESS_DOCKER.md](GUIDE_WORDPRESS_DOCKER.md)** - 🆕 WordPress en Docker (PHP-FPM, MySQL, permissions, migration complète, commandes, bonnes pratiques)
-- **[GUIDE_WORDPRESS_MULTISITE.md](GUIDE_WORDPRESS_MULTISITE.md)** - Installation WordPress multisite
-- **[GUIDE_ASTRO.md](GUIDE_ASTRO.md)** - Déploiement sites Astro (build statique, solutions 404)
-- **[GUIDE_STRAPI.md](GUIDE_STRAPI.md)** - Déploiement Strapi CMS (Docker Node 22, bugs Vite résolus)
-- **[GUIDE_TIKA.md](GUIDE_TIKA.md)** - 🆕 Apache Tika Server (document parsing API, PDF/Office/OCR)
-- **[GUIDE_WHISPER_SERVICES.md](GUIDE_WHISPER_SERVICES.md)** - 🆕 Whisper APIs (faster-whisper + WhisperX diarization, auto-start)
-- **[GUIDE_API_PORTAL.md](GUIDE_API_PORTAL.md)** - 🆕 API & Admin Portal (Swagger UI + Monitoring)
-- **[GUIDE_EMAIL.md](GUIDE_EMAIL.md)** - 🆕 Serveur email Postfix + OpenDKIM (SMTP, SPF/DKIM/DMARC)
-- **[GUIDE_DOCKER_AUTOSTART.md](GUIDE_DOCKER_AUTOSTART.md)** - 🆕 Auto-start/stop Docker (économie RAM 66%, pages d'attente)
+- **[GUIDE_DEPLOIEMENT_VPS.md](docs/guides/GUIDE_DEPLOIEMENT_VPS.md)** - Déploiement Docker (Streamlit, Flask, React...)
+- **[GUIDE_SERVICES_SYSTEMD.md](docs/guides/GUIDE_SERVICES_SYSTEMD.md)** - Services systemd (Ollama, PostgreSQL...)
+- **[GUIDE_NGINX.md](docs/guides/GUIDE_NGINX.md)** - Configuration Nginx (sites statiques, reverse proxy, troubleshooting)
+- **[GUIDE_TROUBLESHOOTING_NGINX.md](docs/guides/GUIDE_TROUBLESHOOTING_NGINX.md)** - 🆕 Résolution de problèmes Nginx (SNI, SSL, redirections)
+- **[GUIDE_WORDPRESS_DOCKER.md](docs/guides/GUIDE_WORDPRESS_DOCKER.md)** - 🆕 WordPress en Docker (PHP-FPM, MySQL, permissions, migration complète, commandes, bonnes pratiques)
+- **[GUIDE_WORDPRESS_MULTISITE.md](docs/guides/GUIDE_WORDPRESS_MULTISITE.md)** - Installation WordPress multisite
+- **[GUIDE_ASTRO.md](docs/guides/GUIDE_ASTRO.md)** - Déploiement sites Astro (build statique, solutions 404)
+- **[GUIDE_STRAPI.md](docs/guides/GUIDE_STRAPI.md)** - Déploiement Strapi CMS (Docker Node 22, bugs Vite résolus)
+- **[GUIDE_TIKA.md](docs/guides/GUIDE_TIKA.md)** - 🆕 Apache Tika Server (document parsing API, PDF/Office/OCR)
+- **[GUIDE_WHISPER_SERVICES.md](docs/guides/GUIDE_WHISPER_SERVICES.md)** - 🆕 Whisper APIs (faster-whisper + WhisperX diarization, auto-start)
+- **[GUIDE_API_PORTAL.md](docs/guides/GUIDE_API_PORTAL.md)** - 🆕 API & Admin Portal (Swagger UI + Monitoring)
+- **[GUIDE_EMAIL.md](docs/guides/GUIDE_EMAIL.md)** - 🆕 Serveur email Postfix + OpenDKIM (SMTP, SPF/DKIM/DMARC)
+- **[GUIDE_DOCKER_AUTOSTART.md](docs/guides/GUIDE_DOCKER_AUTOSTART.md)** - 🆕 Auto-start/stop Docker (économie RAM 66%, pages d'attente)
+- **[GUIDE_MONITORING_WHISPERX.md](docs/GUIDE_MONITORING_WHISPERX.md)** - 🆕 **Monitoring WhisperX** (Grafana + Prometheus + Loki, dashboards, alertes)
 - **[INSTRUCTIONS_LLM.md](INSTRUCTIONS_LLM.md)** - Workflows pour assistants IA (principe DRY)
 
 ---
@@ -366,7 +377,7 @@ Consultez les guides détaillés :
 **Temps migration** : ~45 minutes (dont ~30 minutes de debug)
 
 **Documentation créée** :
-- **[GUIDE_WORDPRESS_DOCKER.md](GUIDE_WORDPRESS_DOCKER.md)** - Guide complet migration (architecture, 9 étapes, commandes, bonnes pratiques validées)
+- **[GUIDE_WORDPRESS_DOCKER.md](docs/guides/GUIDE_WORDPRESS_DOCKER.md)** - Guide complet migration (architecture, 9 étapes, commandes, bonnes pratiques validées)
 
 **Commandes utiles** :
 ```bash

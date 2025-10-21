@@ -1,0 +1,422 @@
+openapi: 3.0.3
+info:
+  title: Faster-Whisper Queue API
+  description: |
+    API de transcription audio avec système de queues asynchrones basé sur RQ (Redis Queue).
+
+    **Fonctionnalités:**
+    - Transcription synchrone (passthrough vers faster-whisper)
+    - Transcription asynchrone via Redis Queue
+    - Suivi du statut des jobs
+    - Statistiques de la queue
+
+    **Architecture:**
+    - Redis DB 1 pour la queue `faster-whisper-transcription`
+    - Worker RQ dédié pour le traitement async
+    - Timeout de 30 minutes par job
+    - TTL des résultats : 1 heure
+  version: 1.0.0
+  contact:
+    name: Support
+    email: julien@julienfernandez.xyz
+  license:
+    name: MIT
+
+servers:
+  - url: http://srv759970.hstgr.cloud:8003
+    description: Production server
+  - url: http://localhost:8003
+    description: Local development
+
+tags:
+  - name: transcription
+    description: Endpoints de transcription audio
+  - name: monitoring
+    description: Monitoring et statistiques
+  - name: health
+    description: Health checks
+
+paths:
+  /:
+    get:
+      summary: Informations sur le service
+      tags: [health]
+      responses:
+        '200':
+          description: Informations du service
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  service:
+                    type: string
+                    example: "Faster-Whisper Queue API"
+                  version:
+                    type: string
+                    example: "1.0.0"
+                  queue:
+                    type: string
+                    example: "faster-whisper-transcription"
+                  endpoints:
+                    type: object
+                    properties:
+                      POST /transcribe:
+                        type: string
+                        example: "Direct transcription (sync)"
+                      POST /transcribe/async:
+                        type: string
+                        example: "Async transcription via RQ"
+                      GET /transcribe/status/{job_id}:
+                        type: string
+                        example: "Check async job status"
+                      GET /health:
+                        type: string
+                        example: "Health check"
+
+  /health:
+    get:
+      summary: Health check
+      description: Vérifie l'état de l'API, Redis et faster-whisper
+      tags: [health]
+      responses:
+        '200':
+          description: Service sain
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "healthy"
+                  redis:
+                    type: string
+                    example: "connected"
+                  faster_whisper:
+                    type: string
+                    example: "up"
+        '503':
+          description: Service non disponible
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /transcribe:
+    post:
+      summary: Transcription synchrone
+      description: Transcription directe via faster-whisper (pas de queue)
+      tags: [transcription]
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - file
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: Fichier audio (wav, mp3, m4a, etc.)
+                language:
+                  type: string
+                  description: Code langue ISO 639-1 (fr, en, es, etc.)
+                  example: "fr"
+                task:
+                  type: string
+                  enum: [transcribe, translate]
+                  default: transcribe
+                  description: transcribe = transcrire, translate = traduire en anglais
+      responses:
+        '200':
+          description: Transcription réussie
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TranscriptionResult'
+        '400':
+          description: Requête invalide
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Erreur serveur
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '504':
+          description: Timeout de transcription
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /transcribe/async:
+    post:
+      summary: Transcription asynchrone
+      description: |
+        Enqueue un job de transcription pour traitement en arrière-plan.
+        Retourne un job_id pour suivre le statut.
+      tags: [transcription]
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - file
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: Fichier audio
+                language:
+                  type: string
+                  description: Code langue
+                  example: "fr"
+                task:
+                  type: string
+                  enum: [transcribe, translate]
+                  default: transcribe
+      responses:
+        '200':
+          description: Job enqueued avec succès
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  job_id:
+                    type: string
+                    format: uuid
+                    example: "c8b13006-fd93-4ea6-8a26-98c3807165b5"
+                  status:
+                    type: string
+                    example: "queued"
+                  message:
+                    type: string
+                    example: "Transcription job queued: audio.wav"
+                  queue_position:
+                    type: integer
+                    example: 0
+                  estimated_wait:
+                    type: string
+                    example: "0 minutes"
+        '500':
+          description: Erreur lors de l'enqueue
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /transcribe/status/{job_id}:
+    get:
+      summary: Statut du job asynchrone
+      description: Récupère le statut et le résultat d'un job de transcription
+      tags: [transcription]
+      parameters:
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: ID du job retourné par /transcribe/async
+      responses:
+        '200':
+          description: Statut du job
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - $ref: '#/components/schemas/JobQueued'
+                  - $ref: '#/components/schemas/JobStarted'
+                  - $ref: '#/components/schemas/JobFinished'
+                  - $ref: '#/components/schemas/JobFailed'
+        '404':
+          description: Job non trouvé
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /queue/stats:
+    get:
+      summary: Statistiques de la queue
+      description: Récupère les statistiques de la queue faster-whisper-transcription
+      tags: [monitoring]
+      responses:
+        '200':
+          description: Statistiques
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  queue_name:
+                    type: string
+                    example: "faster-whisper-transcription"
+                  queued:
+                    type: integer
+                    description: Jobs en attente
+                    example: 3
+                  workers:
+                    type: integer
+                    description: Workers actifs
+                    example: 1
+                  failed:
+                    type: integer
+                    description: Jobs échoués (total)
+                    example: 2
+                  finished:
+                    type: integer
+                    description: Jobs terminés (total)
+                    example: 15
+                  started:
+                    type: integer
+                    description: Jobs en cours
+                    example: 1
+        '500':
+          description: Erreur serveur
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    TranscriptionResult:
+      type: object
+      properties:
+        text:
+          type: string
+          description: Texte transcrit complet
+          example: "Bonjour, ceci est une transcription d'exemple."
+        segments:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+              start:
+                type: number
+                format: float
+              end:
+                type: number
+                format: float
+              text:
+                type: string
+        metadata:
+          type: object
+          properties:
+            filename:
+              type: string
+            processing_time:
+              type: number
+              format: float
+            language:
+              type: string
+            task:
+              type: string
+            service:
+              type: string
+              example: "faster-whisper"
+
+    JobQueued:
+      type: object
+      properties:
+        job_id:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [queued]
+        created_at:
+          type: string
+          format: date-time
+        queue_position:
+          type: integer
+        message:
+          type: string
+          example: "Waiting in queue"
+
+    JobStarted:
+      type: object
+      properties:
+        job_id:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [started]
+        created_at:
+          type: string
+          format: date-time
+        started_at:
+          type: string
+          format: date-time
+        message:
+          type: string
+          example: "Transcription in progress"
+
+    JobFinished:
+      type: object
+      properties:
+        job_id:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [finished]
+        created_at:
+          type: string
+          format: date-time
+        started_at:
+          type: string
+          format: date-time
+        ended_at:
+          type: string
+          format: date-time
+        result:
+          $ref: '#/components/schemas/TranscriptionResult'
+        message:
+          type: string
+          example: "Transcription completed"
+
+    JobFailed:
+      type: object
+      properties:
+        job_id:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [failed]
+        created_at:
+          type: string
+          format: date-time
+        started_at:
+          type: string
+          format: date-time
+        ended_at:
+          type: string
+          format: date-time
+        error:
+          type: string
+        message:
+          type: string
+          example: "Transcription failed"
+
+    Error:
+      type: object
+      properties:
+        detail:
+          type: string
+          description: Message d'erreur
