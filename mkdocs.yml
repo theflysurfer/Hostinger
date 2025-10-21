@@ -61,6 +61,7 @@ nav:
   
   - Services:
       - Dashy Portal: services/dashy-portal.md
+      - Docker Auto-Start/Stop Config: services/docker-autostart-config.md
       - WhisperX: services/whisperx.md
       - Faster-Whisper Queue: services/faster-whisper-queue.md
       - Monitoring: services/monitoring.md

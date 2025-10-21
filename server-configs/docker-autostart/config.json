@@ -1,0 +1,123 @@
+{
+  "port": 8890,
+  "idleTimeout": 1800,
+  "services": {
+    "solidarlink.srv759970.hstgr.cloud": {
+      "name": "SolidarLink",
+      "composeDir": "/opt/wordpress-solidarlink",
+      "proxyPort": 9003,
+      "theme": "hacker-terminal",
+      "containers": [
+        "nginx-solidarlink",
+        "wordpress-solidarlink"
+      ]
+    },
+    "tika.srv759970.hstgr.cloud": {
+      "name": "Tika API",
+      "composeDir": "/opt/tika-server",
+      "proxyPort": 9998,
+      "blocking": true,
+      "containers": [
+        "tika-server"
+      ]
+    },
+    "clemence.srv759970.hstgr.cloud": {
+      "name": "Clémence Site",
+      "composeDir": "/opt/wordpress-clemence",
+      "proxyPort": 9002,
+      "theme": "ghost",
+      "containers": [
+        "wordpress-clemence",
+        "nginx-clemence"
+      ]
+    },
+    "dashboard.srv759970.hstgr.cloud": {
+      "name": "Support Dashboard",
+      "composeDir": "/opt/support-dashboard",
+      "proxyPort": 8501,
+      "theme": "matrix",
+      "containers": [
+        "support-dashboard"
+      ]
+    },
+    "sharepoint.srv759970.hstgr.cloud": {
+      "name": "SharePoint Dashboards",
+      "composeDir": "/opt/sharepoint-dashboards",
+      "proxyPort": 8502,
+      "theme": "shuffle",
+      "containers": [
+        "sharepoint-dashboards"
+      ]
+    },
+    "admin.cristina.srv759970.hstgr.cloud": {
+      "name": "Cristina Admin",
+      "composeDir": "/opt/cristina-backend",
+      "proxyPort": 1337,
+      "theme": "ghost",
+      "containers": [
+        "cristina-strapi"
+      ]
+    },
+    "whisper.srv759970.hstgr.cloud": {
+      "name": "Whisper API (faster-whisper)",
+      "composeDir": "/opt/whisper-faster",
+      "proxyPort": 8001,
+      "blocking": true,
+      "containers": [
+        "faster-whisper"
+      ]
+    },
+    "whisperx.srv759970.hstgr.cloud": {
+      "name": "WhisperX API (with diarization)",
+      "composeDir": "/opt/whisperx",
+      "proxyPort": 8002,
+      "blocking": true,
+      "containers": [
+        "whisperx"
+      ]
+    },
+    "memvid.srv759970.hstgr.cloud": {
+      "name": "MemVid RAG API",
+      "composeDir": "/opt/memvid",
+      "proxyPort": 8506,
+      "blocking": true,
+      "containers": [
+        "memvid-api"
+      ]
+    },
+    "memvid-ui.srv759970.hstgr.cloud": {
+      "name": "MemVid UI",
+      "composeDir": "/opt/memvid",
+      "proxyPort": 8507,
+      "theme": "matrix",
+      "containers": [
+        "memvid-ui"
+      ]
+    },
+    "ragflow.srv759970.hstgr.cloud": {
+      "name": "RAGFlow",
+      "composeDir": "/opt/ragflow/docker",
+      "composeFile": "docker-compose-full.yml",
+      "proxyPort": 9500,
+      "theme": "cyberpunk",
+      "blocking": true,
+      "containers": [
+        "ragflow-server",
+        "ragflow-mysql",
+        "ragflow-es-01",
+        "ragflow-redis",
+        "ragflow-minio"
+      ]
+    },
+    "rag-anything.srv759970.hstgr.cloud": {
+      "name": "RAG-Anything",
+      "composeDir": "/opt/rag-anything",
+      "proxyPort": 9510,
+      "theme": "synthwave",
+      "blocking": true,
+      "containers": [
+        "rag-anything-api"
+      ]
+    }
+  }
+}

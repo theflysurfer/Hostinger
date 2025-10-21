@@ -14,6 +14,8 @@ server-configs/
 │   ├── neutts-air.yml
 │   ├── memvid.yml
 │   └── mkdocs.yml
+├── docker-autostart/      # Configuration du système auto-start/stop
+│   └── config.json        # Snapshot de /opt/docker-autostart/config.json
 ├── nginx/
 │   ├── sites-available/   # Configurations Nginx par site
 │   ├── snippets/          # Snippets réutilisables (basic-auth, proxy-headers, ssl)
@@ -217,6 +219,7 @@ Optionnel: Cron local pour sync automatique
 ## 📚 Documentation
 
 Documentation complète:
+- [Docker Auto-Start/Stop Configuration](../docs/services/docker-autostart-config.md)
 - [Guide Backup & Restore](../docs/infrastructure/backup-restore.md)
 - [Nginx Infrastructure](../docs/infrastructure/nginx.md)
 - [Docker Infrastructure](../docs/infrastructure/docker.md)
