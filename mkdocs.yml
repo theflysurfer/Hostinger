@@ -61,18 +61,15 @@ nav:
       - Tika (Document Parsing): services/tika.md
       - Ollama (Local LLM): services/ollama.md
       - RAGFlow: services/ragflow.md
-      - RAG-Anything: services/rag-anything.md
       - MemVid: services/memvid.md
     - Infrastructure Services:
       - Monitoring Stack: services/monitoring-stack.md
       - Dashy Portal: services/dashy.md
-      - Docker AutoStart: services/docker-autostart.md
+      - Docker AutoStart: 03-operations/docker-autostart.md
     - Collaboration:
       - Nextcloud: services/nextcloud.md
       - Jitsi Meet: services/jitsi.md
       - RocketChat: services/rocketchat.md
-    - Base Templates:
-      - WordPress Base: services/wordpress-base/
 
   - Applications:
     - Vue d'ensemble: applications/README.md
