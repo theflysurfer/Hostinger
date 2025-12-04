@@ -62,14 +62,22 @@ nav:
       - Ollama (Local LLM): services/ollama.md
       - RAGFlow: services/ragflow.md
       - MemVid: services/memvid.md
+      - NeuTTS (TTS): services/neutts.md
+      - XTTS (TTS): services/xtts.md
     - Infrastructure Services:
       - Monitoring Stack: services/monitoring-stack.md
       - Dashy Portal: services/dashy.md
+      - Dozzle: services/dozzle.md
+      - Glances: services/glances.md
+      - Portainer: services/portainer.md
       - Docker AutoStart: 03-operations/docker-autostart.md
     - Collaboration:
       - Nextcloud: services/nextcloud.md
       - Jitsi Meet: services/jitsi.md
       - RocketChat: services/rocketchat.md
+    - Documents:
+      - Paperless NGX: services/paperless-ngx.md
+      - Paperless AI: services/paperless-ai.md
 
   - Applications:
     - Vue d'ensemble: applications/README.md
