@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: n8n
+    restart: "no"
+    ports:
+      - '127.0.0.1:5678:5678'
+    environment:
+      - N8N_HOST=n8n.srv759970.hstgr.cloud
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=https
+      - WEBHOOK_URL=https://n8n.srv759970.hstgr.cloud/
+      - GENERIC_TIMEZONE=Europe/Paris
+      - TZ=Europe/Paris
+      - N8N_LOG_LEVEL=info
+      - N8N_EDITOR_BASE_URL=https://n8n.srv759970.hstgr.cloud/
+      - N8N_METRICS=true
+      - N8N_DIAGNOSTICS_ENABLED=false
+      - N8N_SKIP_WEBHOOK_DEREGISTRATION_SHUTDOWN=true
+    volumes:
+      - /opt/n8n/data:/home/node/.n8n
+      - /opt/n8n/files:/files
+    networks:
+      - n8n-network
+
+networks:
+  n8n-network:
+    driver: bridge

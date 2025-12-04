@@ -1,0 +1,91 @@
+version: "3.8"
+
+services:
+  paperless-redis:
+    image: docker.io/library/redis:7
+    container_name: paperless-redis
+    restart: "no"
+    ports:
+      - "6382:6379"
+    volumes:
+      - paperless-redis-data:/data
+    networks:
+      - paperless-network
+
+  paperless-db:
+    image: docker.io/library/postgres:16
+    container_name: paperless-db
+    restart: "no"
+    ports:
+      - "5433:5432"
+    volumes:
+      - paperless-db-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: paperless
+      POSTGRES_USER: paperless
+      POSTGRES_PASSWORD: BH2iQ2rXuQgC5h39rnlAA5r74LJhLCcJouBH/uQV08E=
+    networks:
+      - paperless-network
+
+  paperless-gotenberg:
+    image: docker.io/gotenberg/gotenberg:8
+    container_name: paperless-gotenberg
+    restart: "no"
+    command:
+      - "gotenberg"
+      - "--chromium-disable-javascript=true"
+      - "--chromium-allow-list=file:///tmp/.*"
+    networks:
+      - paperless-network
+
+  paperless-webserver:
+    image: ghcr.io/paperless-ngx/paperless-ngx:latest
+    container_name: paperless-webserver
+    restart: "no"
+    depends_on:
+      - paperless-db
+      - paperless-redis
+      - paperless-gotenberg
+    ports:
+      - "8600:8000"
+    healthcheck:
+      test: ["CMD", "curl", "-fs", "-S", "--max-time", "2", "http://localhost:8000"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    volumes:
+      - paperless-data:/usr/src/paperless/data
+      - paperless-media:/usr/src/paperless/media
+      - /opt/paperless-ngx/export:/usr/src/paperless/export
+      - /opt/paperless-ngx/consume:/usr/src/paperless/consume
+    environment:
+      PAPERLESS_REDIS: redis://paperless-redis:6379
+      PAPERLESS_DBHOST: paperless-db
+      PAPERLESS_DBNAME: paperless
+      PAPERLESS_DBUSER: paperless
+      PAPERLESS_DBPASS: BH2iQ2rXuQgC5h39rnlAA5r74LJhLCcJouBH/uQV08E=
+      PAPERLESS_URL: https://paperless.srv759970.hstgr.cloud
+      PAPERLESS_ALLOWED_HOSTS: paperless.srv759970.hstgr.cloud,localhost
+      PAPERLESS_TIME_ZONE: Europe/Paris
+      PAPERLESS_OCR_LANGUAGE: fra
+      PAPERLESS_CONSUMER_POLLING: 30
+      PAPERLESS_CONSUMER_RECURSIVE: "true"
+      PAPERLESS_CONSUMER_SUBDIRS_AS_TAGS: "true"
+      PAPERLESS_TIKA_ENABLED: "false"
+      PAPERLESS_TIKA_GOTENBERG_ENDPOINT: http://paperless-gotenberg:3000
+      PAPERLESS_ADMIN_USER: admin
+      PAPERLESS_ADMIN_PASSWORD: PaperlessAdmin2025!
+      PAPERLESS_ADMIN_MAIL: julien.fernandez.work@gmail.com
+      PAPERLESS_SECRET_KEY: NoSPYcZmxm9ZHfbvhJdOGui91+aCDGYMKhAyJK4m/KYRoCCF90ek9XXF+0+++HWlsXmNfY8yzorIiVzo5IJQuA==
+    networks:
+      - paperless-network
+
+volumes:
+  paperless-db-data:
+  paperless-redis-data:
+  paperless-data:
+  paperless-media:
+
+networks:
+  paperless-network:
+    driver: bridge

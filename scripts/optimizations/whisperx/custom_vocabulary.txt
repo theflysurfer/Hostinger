@@ -1,0 +1,31 @@
+# ==================================================
+# WhisperX Custom Vocabulary - Français
+# ==================================================
+# Ajoutez ici les mots techniques, noms propres,
+# ou termes spécifiques que WhisperX devrait reconnaître
+# Un mot par ligne, commentaires avec #
+# ==================================================
+
+# Exemples de mots techniques
+Docker
+Kubernetes
+WhisperX
+FastAPI
+Redis
+
+# Noms de personnes/entreprises
+Hostinger
+Claude
+Anthropic
+
+# Termes médicaux (exemple)
+# scanner
+# IRM
+# échographie
+
+# Termes juridiques (exemple)
+# jurisprudence
+# contentieux
+
+# Ajouter vos propres mots ici:
+

@@ -8,7 +8,7 @@
 
 set -e
 
-SERVER="root@69.62.108.82"
+SERVER="automation@69.62.108.82"
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 SERVER_CONFIGS="$REPO_ROOT/server-configs"
 

@@ -1,0 +1,303 @@
+pageInfo:
+  title: srv759970
+  description: Infrastructure Services Portal
+  navLinks:
+    - title: GitHub
+      path: https://github.com/julienfernandez
+    - title: Docs
+      path: https://docs.srv759970.hstgr.cloud
+  footerText: ''
+
+appConfig:
+  theme: material-dark
+  layout: horizontal
+  iconSize: small
+  language: fr
+  startingView: default
+  defaultOpeningMethod: newtab
+  # statusCheck: REMOVED to prevent axios polling (do NOT set to false, DELETE the line)
+  # statusCheckInterval: REMOVED
+  faviconApi: allesedv
+  routingMode: history
+  enableMultiTasking: false
+  webSearch:
+    disableWebSearch: false
+    searchEngine: duckduckgo
+    openingMethod: newtab
+  enableFontAwesome: true
+  enableMaterialDesignIcons: true
+  hideComponents:
+    hideHeading: false
+    hideNav: false
+    hideSearch: false
+    hideSettings: false
+    hideFooter: true
+  customCss: |
+    :root {
+      --curve-factor: 8px;
+      --dimming-factor: 0.7;
+    }
+    .item {
+      border: 1px solid rgba(255,255,255,0.05);
+      transition: all 0.2s ease;
+    }
+    .item:hover {
+      border-color: rgba(255,255,255,0.15);
+      transform: translateY(-2px);
+    }
+    .section {
+      margin-bottom: 2rem;
+    }
+    .section-title {
+      font-weight: 500;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      opacity: 0.7;
+    }
+
+sections:
+  - name: Collaboration & Productivity
+    icon: mdi-account-group
+    displayData:
+      cols: 3
+      collapsed: false
+    items:
+      - title: Nextcloud
+        description: Cloud storage & file sync
+        icon: mdi-cloud
+        url: https://nextcloud.srv759970.hstgr.cloud
+        target: newtab
+
+      - title: Rocket.Chat
+        description: Team messaging & collaboration
+        icon: mdi-chat
+        url: https://chat.srv759970.hstgr.cloud
+        target: newtab
+
+      - title: Jitsi Meet
+        description: Secure video conferencing
+        icon: mdi-video
+        url: https://meet.srv759970.hstgr.cloud
+        target: newtab
+
+  - name: Speech-to-Text & TTS
+    icon: mdi-microphone
+    displayData:
+      cols: 3
+      collapsed: false
+    items:
+      - title: WhisperX
+        description: Advanced transcription with diarization
+        icon: mdi-account-voice
+        url: https://whisperx.srv759970.hstgr.cloud/docs
+        target: newtab
+
+      - title: Faster-Whisper Queue
+        description: Async transcription with job management
+        icon: mdi-tray-full
+        url: https://faster-whisper.srv759970.hstgr.cloud/docs
+        target: newtab
+
+      - title: Faster-Whisper Direct
+        description: Fast CPU-optimized transcription
+        icon: mdi-flash
+        url: https://whisper.srv759970.hstgr.cloud/docs
+        target: newtab
+
+      - title: XTTS-v2
+        description: Voice cloning & text-to-speech
+        icon: mdi-voice
+        url: http://69.62.108.82:8020
+        target: newtab
+
+      - title: NeuTTS API
+        description: Neural text-to-speech API
+        icon: mdi-volume-high
+        url: https://neutts-api.srv759970.hstgr.cloud/docs
+        target: newtab
+
+      - title: NeuTTS UI
+        description: Voice cloning interface
+        icon: mdi-waveform
+        url: https://neutts-ui.srv759970.hstgr.cloud
+        target: newtab
+
+  - name: AI & Machine Learning
+    icon: mdi-robot
+    displayData:
+      cols: 3
+    items:
+      - title: Ollama
+        description: Local LLM inference
+        icon: mdi-robot-outline
+        url: https://ollama.srv759970.hstgr.cloud
+
+  - name: RAG & Semantic Search
+    icon: mdi-magnify
+    displayData:
+      cols: 3
+    items:
+      - title: RAGFlow
+        description: RAG orchestration platform
+        icon: mdi-flow-chart
+        url: https://ragflow.srv759970.hstgr.cloud
+
+      - title: RAG-Anything
+        description: Universal RAG pipeline
+        icon: mdi-pipe
+        url: https://rag-anything.srv759970.hstgr.cloud
+
+      - title: MemVid
+        description: Video semantic search
+        icon: mdi-video-search
+        url: https://memvid.srv759970.hstgr.cloud
+
+  - name: Document Management
+    icon: mdi-file-document
+    displayData:
+      cols: 3
+    items:
+      - title: Paperless-ngx
+        description: Intelligent document management
+        icon: mdi-file-cabinet
+        url: https://paperless.srv759970.hstgr.cloud
+
+      - title: Paperless AI
+        description: AI document assistant
+        icon: mdi-brain
+        url: https://paperless-ai.srv759970.hstgr.cloud
+
+  - name: Automation & Integration
+    icon: mdi-cog-sync
+    displayData:
+      cols: 3
+    items:
+      - title: n8n
+        description: Workflow automation & integration
+        icon: mdi-workflow
+        url: https://n8n.srv759970.hstgr.cloud
+        target: newtab
+
+  - name: Utilities
+    icon: mdi-tools
+    displayData:
+      cols: 3
+    items:
+      - title: Apache Tika
+        description: Document parsing & OCR
+        icon: mdi-file-search
+        url: https://tika.srv759970.hstgr.cloud
+
+      - title: API Portal
+        description: API documentation hub
+        icon: mdi-api
+        url: https://portal.srv759970.hstgr.cloud
+
+      - title: Dashy Portal
+        description: This services dashboard
+        icon: mdi-view-dashboard
+        url: https://dashy.srv759970.hstgr.cloud
+
+  - name: Monitoring & Infrastructure
+    icon: mdi-chart-line
+    displayData:
+      cols: 4
+      collapsed: true
+    items:
+      - title: Grafana
+        description: Metrics & dashboards
+        icon: mdi-chart-areaspline
+        url: https://monitoring.srv759970.hstgr.cloud
+
+      - title: Prometheus
+        description: Metrics collection
+        icon: mdi-database-clock
+        url: https://prometheus.srv759970.hstgr.cloud
+
+      - title: Dozzle
+        description: Container logs viewer
+        icon: mdi-text-box-search
+        url: https://dozzle.srv759970.hstgr.cloud
+
+      - title: Glances
+        description: System monitoring
+        icon: mdi-monitor-eye
+        url: https://glances.srv759970.hstgr.cloud
+
+      - title: Netdata
+        description: Real-time system monitor
+        icon: mdi-monitor-dashboard
+        url: http://69.62.108.82:19999
+
+      - title: Portainer
+        description: Docker management UI
+        icon: mdi-docker
+        url: http://69.62.108.82:9000
+
+      - title: RQ Dashboard
+        description: Redis queue monitoring
+        icon: mdi-clipboard-list
+        url: https://whisperx-dashboard.srv759970.hstgr.cloud
+
+  - name: Web Applications & CMS
+    icon: mdi-web
+    displayData:
+      cols: 4
+      collapsed: true
+    items:
+      - title: Cristina
+        description: Personal website (Astro SSG)
+        icon: mdi-star
+        url: https://cristina.srv759970.hstgr.cloud
+
+      - title: Cristina Admin
+        description: Strapi CMS admin
+        icon: mdi-cog
+        url: https://admin.cristina.srv759970.hstgr.cloud/admin
+
+      - title: Clémence
+        description: WordPress site
+        icon: mdi-wordpress
+        url: https://clemence.srv759970.hstgr.cloud
+
+      - title: SolidarLink
+        description: Solidarity platform (WordPress)
+        icon: mdi-hand-heart
+        url: https://solidarlink.srv759970.hstgr.cloud
+
+      - title: PanneauxSolidaires
+        description: Solidarity panels platform
+        icon: mdi-handshake
+        url: https://panneauxsolidaires.srv759970.hstgr.cloud
+
+      - title: JeSuisHyperphagique
+        description: Health blog
+        icon: mdi-food-apple
+        url: https://jesuishyperphagique.srv759970.hstgr.cloud
+
+      - title: Impro Manager
+        description: Improvisation management app
+        icon: mdi-theater
+        url: https://impro.srv759970.hstgr.cloud
+
+  - name: Databases
+    icon: mdi-database
+    displayData:
+      cols: 3
+      collapsed: true
+    items:
+      - title: MongoDB
+        description: Shared MongoDB instance
+        icon: mdi-database
+        url: mongodb://69.62.108.82:27017
+
+      - title: PostgreSQL
+        description: Shared PostgreSQL instance
+        icon: mdi-database
+        url: postgresql://69.62.108.82:5432
+
+      - title: Redis
+        description: Shared Redis cache
+        icon: mdi-database
+        url: redis://69.62.108.82:6379

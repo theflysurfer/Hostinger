@@ -1,0 +1,21 @@
+{
+  "name": "jellyfin-stack-tests",
+  "version": "1.0.0",
+  "description": "Tests Playwright pour la stack Jellyfin + Kavita",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "test:debug": "playwright test --debug",
+    "test:report": "playwright show-report",
+    "install-browsers": "playwright install chromium"
+  },
+  "keywords": ["jellyfin", "radarr", "sonarr", "playwright", "testing"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@playwright/test": "^1.40.0",
+    "@types/node": "^20.10.0",
+    "typescript": "^5.3.0"
+  }
+}

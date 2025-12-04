@@ -1,0 +1,70 @@
+# ==================================================
+# PAPERFLOW - DOCKERFILE OPTIMISÉ (Option B)
+# ==================================================
+# Réduction estimée: 6.96 GB → 3.5 GB (-50%)
+# Sécurité: 25/100 → 75/100
+# Build time: -20%
+# ==================================================
+
+# ==================================================
+# Stage 1: Builder - Compile dependencies
+# ==================================================
+FROM python:3.11-slim AS builder
+
+WORKDIR /build
+
+# Install build dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create virtual environment
+RUN python -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Copy requirements and install
+COPY requirements.txt .
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
+
+# ==================================================
+# Stage 2: Runtime - Minimal production image
+# ==================================================
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install ONLY runtime dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libmagic1 \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create non-root user
+RUN groupadd -r paperflow && useradd -r -g paperflow paperflow \
+    && mkdir -p /app /dropbox/paperflow/data /opt/paperflow/data /cache/huggingface \
+    && chown -R paperflow:paperflow /app /dropbox /opt/paperflow /cache
+
+# Copy virtual environment from builder
+COPY --from=builder --chown=paperflow:paperflow /opt/venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Set HuggingFace cache directory to a dedicated volume location
+ENV HF_HOME=/cache/huggingface
+ENV TRANSFORMERS_CACHE=/cache/huggingface
+
+# Copy application code
+COPY --chown=paperflow:paperflow . .
+
+# Switch to non-root user
+USER paperflow
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --retries=3 --start-period=40s \
+    CMD curl -f http://localhost:8000/health || exit 1
+
+EXPOSE 8000
+
+# Default command (API server)
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

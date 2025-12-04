@@ -1,0 +1,17 @@
+# WhisperX Dependencies
+# Versions pinned for reproducibility
+
+# Core ML (no version pinning to avoid torchaudio conflicts)
+whisperx
+
+# API Framework
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+python-multipart==0.0.6
+
+# Queue system
+redis==5.0.1
+rq==1.15.1
+
+# Optional: Monitoring
+prometheus-client==0.19.0

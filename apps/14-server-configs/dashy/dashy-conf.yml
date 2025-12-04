@@ -1,0 +1,498 @@
+pageInfo:
+  title: srv759970 Services Portal
+  description: Portail Centralisé - APIs, Applications & Infrastructure
+  navLinks:
+    - title: GitHub
+      path: https://github.com/julienfernandez
+    - title: Documentation Technique
+      path: https://docs.srv759970.hstgr.cloud
+    - title: Analyse Auth Strategy
+      path: https://docs.srv759970.hstgr.cloud/analysis/auth-strategy-oauth-vs-basic/
+  footerText: "srv759970.hstgr.cloud | Infrastructure as Code | 30+ Services"
+
+appConfig:
+  theme: colorful
+  layout: auto
+  iconSize: medium
+  language: fr
+  startingView: default
+  defaultOpeningMethod: newtab
+  statusCheck: true
+  statusCheckInterval: 300
+  faviconApi: allesedv
+  routingMode: history
+  enableMultiTasking: false
+  widgetsAlwaysUseProxy: false
+  webSearch:
+    disableWebSearch: false
+    searchEngine: duckduckgo
+    openingMethod: newtab
+  enableFontAwesome: true
+  enableMaterialDesignIcons: true
+  hideComponents:
+    hideHeading: false
+    hideNav: false
+    hideSearch: false
+    hideSettings: false
+    hideFooter: false
+
+sections:
+  - name: 🎤 APIs de Transcription (Speech-to-Text)
+    icon: fas fa-microphone
+    displayData:
+      sortBy: default
+      rows: 1
+      cols: 3
+      collapsed: false
+      hideForGuests: false
+    items:
+      - title: WhisperX API
+        description: "Transcription avancée avec diarization (pyannote-audio) - Swagger UI"
+        icon: fas fa-users
+        url: https://whisperx.srv759970.hstgr.cloud/docs
+        target: newtab
+        statusCheck: true
+        statusCheckUrl: https://whisperx.srv759970.hstgr.cloud/
+        tags: [API, Whisper, Diarization, HTTPS, Swagger]
+
+      - title: Faster-Whisper Queue API
+        description: "Transcription async avec RQ, gestion de jobs longs - Swagger UI"
+        icon: hl-redis
+        url: https://faster-whisper.srv759970.hstgr.cloud/docs
+        target: newtab
+        statusCheck: true
+        statusCheckUrl: https://faster-whisper.srv759970.hstgr.cloud/health
+        tags: [API, Queue, Async, HTTPS, Swagger]
+
+      - title: Faster-Whisper API (Direct)
+        description: "Transcription rapide, OpenAI-compatible, CPU optimisé - Swagger UI"
+        icon: fas fa-bolt
+        url: https://whisper.srv759970.hstgr.cloud/docs
+        target: newtab
+        statusCheck: true
+        statusCheckUrl: https://whisper.srv759970.hstgr.cloud/health
+        tags: [API, Whisper, Fast, HTTPS, Swagger]
+
+  - name: 🤖 APIs AI & Machine Learning
+    icon: fas fa-brain
+    displayData:
+      cols: 3
+    items:
+      - title: Ollama LLM API
+        description: "Inférence LLM locale - qwen2.5:14b, mistral:7b, llama3.2:1b"
+        icon: fas fa-robot
+        url: https://ollama.srv759970.hstgr.cloud
+        statusCheck: true
+        statusCheckUrl: https://ollama.srv759970.hstgr.cloud/api/tags
+        tags: [API, LLM, AI, HTTPS]
+
+      - title: NeuTTS-Air API
+        description: "Text-to-speech avec voice cloning neural - Swagger UI"
+        icon: fas fa-volume-up
+        url: https://neutts-api.srv759970.hstgr.cloud/docs
+        target: newtab
+        statusCheck: true
+        statusCheckUrl: https://neutts-api.srv759970.hstgr.cloud/health
+        tags: [API, TTS, Voice, HTTPS, Swagger]
+
+      - title: NeuTTS-Air UI
+        description: "Interface Streamlit pour TTS et voice cloning"
+        icon: hl-streamlit
+        url: https://neutts.srv759970.hstgr.cloud
+        target: newtab
+        statusCheck: true
+        tags: [App, TTS, Streamlit, HTTPS]
+
+  - name: 📚 APIs RAG & Semantic Search
+    icon: fas fa-search
+    displayData:
+      cols: 3
+    items:
+      - title: RAGFlow
+        description: "RAG avancé avec deep document understanding - 5 conteneurs (ES, MySQL, Redis, MinIO)"
+        icon: fas fa-project-diagram
+        url: https://ragflow.srv759970.hstgr.cloud
+        target: newtab
+        statusCheck: true
+        statusCheckUrl: https://ragflow.srv759970.hstgr.cloud:9500
+        tags: [RAG, API, ElasticSearch, HTTPS]
+
+      - title: RAG-Anything API
+        description: "Multimodal RAG avec LightRAG et knowledge graph - Swagger UI"
+        icon: fas fa-network-wired
+        url: https://rag-anything.srv759970.hstgr.cloud/docs
+        target: newtab
+        statusCheck: true
+        statusCheckUrl: https://rag-anything.srv759970.hstgr.cloud:9510/health
+        tags: [RAG, API, Knowledge Graph, HTTPS, Swagger]
+
+      - title: MemVid RAG API
+        description: "RAG sémantique avec encodage vidéo (QR codes) - Swagger UI"
+        icon: fas fa-video
+        url: https://memvid.srv759970.hstgr.cloud/docs
+        target: newtab
+        statusCheck: true
+        statusCheckUrl: https://memvid.srv759970.hstgr.cloud/health
+        tags: [RAG, API, Video, HTTPS, Swagger]
+
+  - name: 🔧 APIs Utilitaires
+    icon: fas fa-tools
+    displayData:
+      cols: 2
+    items:
+      - title: Apache Tika API
+        description: "Parsing de documents - 1000+ formats (PDF, Office, images OCR)"
+        icon: hl-apache
+        url: https://tika.srv759970.hstgr.cloud
+        statusCheck: true
+        statusCheckUrl: https://tika.srv759970.hstgr.cloud/tika
+        tags: [API, Documents, Parser, HTTPS]
+
+      - title: Portail API Unifié (Swagger UI)
+        description: "Swagger UI centralisé pour toutes les APIs (Whisper, Tika, Ollama)"
+        icon: fas fa-code
+        url: https://portal.srv759970.hstgr.cloud/api
+        target: newtab
+        statusCheck: true
+        tags: [Portal, Swagger, Multi-API, HTTPS]
+
+  - name: 📊 Monitoring & Observabilité
+    icon: fas fa-chart-line
+    displayData:
+      cols: 3
+    items:
+      - title: Grafana Monitoring
+        description: "Stack complète - Prometheus (métriques RQ) + Loki (logs agrégés)"
+        icon: hl-grafana
+        url: https://monitoring.srv759970.hstgr.cloud
+        target: newtab
+        statusCheck: true
+        tags: [Monitoring, Metrics, Logs, HTTPS]
+
+      - title: Prometheus
+        description: "Métriques time-series - Scraping RQ exporters et services"
+        icon: hl-prometheus
+        url: http://srv759970.hstgr.cloud:9090
+        statusCheck: true
+        statusCheckUrl: http://srv759970.hstgr.cloud:9090/-/healthy
+        tags: [Metrics, Time-Series, Monitoring]
+
+      - title: RQ Dashboard (WhisperX)
+        description: "Queues Redis - WhisperX (DB 0) + Faster-Whisper (DB 1)"
+        icon: hl-redis
+        url: https://whisperx-dashboard.srv759970.hstgr.cloud
+        target: newtab
+        statusCheck: true
+        tags: [Queue, Jobs, Redis, HTTPS]
+
+      - title: Dozzle (Logs Docker)
+        description: "Logs Docker temps réel - Tous les conteneurs (40+)"
+        icon: hl-docker
+        url: https://dozzle.srv759970.hstgr.cloud
+        target: newtab
+        statusCheck: true
+        statusCheckUrl: https://dozzle.srv759970.hstgr.cloud
+        tags: [Logs, Docker, Real-time, HTTPS]
+
+      - title: Netdata
+        description: "Métriques système temps réel - CPU, RAM, disque, réseau"
+        icon: hl-netdata
+        url: http://srv759970.hstgr.cloud:19999
+        statusCheck: true
+        tags: [System, Metrics, Performance]
+
+      - title: Portainer
+        description: "Gestion Docker GUI - Conteneurs, images, volumes, réseaux, stacks"
+        icon: hl-portainer
+        url: http://srv759970.hstgr.cloud:9000
+        statusCheck: true
+        tags: [Docker, Admin, GUI]
+
+  - name: 🌐 Applications Web & Dashboards
+    icon: fas fa-globe
+    displayData:
+      cols: 3
+    items:
+      - title: Support Dashboard
+        description: "Dashboard IT Support avec gestion tickets - Streamlit Matrix theme"
+        icon: hl-streamlit
+        url: https://dashboard.srv759970.hstgr.cloud
+        target: newtab
+        statusCheck: true
+        tags: [App, Streamlit, Support, HTTPS]
+
+      - title: SharePoint Dashboards
+        description: "API d'analyse SharePoint avec monitoring - Streamlit Shuffle theme"
+        icon: fas fa-chart-bar
+        url: https://sharepoint.srv759970.hstgr.cloud
+        target: newtab
+        statusCheck: true
+        tags: [App, SharePoint, Analytics, HTTPS]
+
+      - title: API & Admin Portal
+        description: "Portail centralisé pour documentation API (Swagger UI) et interfaces admin"
+        icon: fas fa-portal-enter
+        url: https://portal.srv759970.hstgr.cloud
+        target: newtab
+        statusCheck: true
+        tags: [Portal, Admin, Swagger, HTTPS]
+
+  - name: 🏢 Sites Web & CMS
+    icon: fas fa-laptop-code
+    displayData:
+      cols: 3
+    items:
+      - title: Cristina Site
+        description: "Site vitrine coaching - Frontend statique Astro SSG"
+        icon: fas fa-spa
+        url: https://cristina.srv759970.hstgr.cloud
+        target: newtab
+        statusCheck: true
+        tags: [Website, Astro, Static, HTTPS]
+
+      - title: Cristina Admin (Strapi)
+        description: "Backend CMS Strapi 5 pour gestion de contenu - Node.js 22"
+        icon: hl-strapi
+        url: https://admin.cristina.srv759970.hstgr.cloud/admin
+        target: newtab
+        statusCheck: true
+        tags: [CMS, Admin, Strapi, HTTPS]
+
+      - title: Clémence Site
+        description: "Site vitrine projets engagés - WordPress FPM + Nginx + MySQL (3 conteneurs)"
+        icon: fas fa-heart
+        url: https://clemence.srv759970.hstgr.cloud
+        target: newtab
+        statusCheck: true
+        tags: [Website, WordPress, Docker, HTTPS]
+
+      - title: SolidarLink
+        description: "Plateforme WordPress de mise en relation solidaire - Native PHP-FPM"
+        icon: hl-wordpress
+        url: https://solidarlink.srv759970.hstgr.cloud
+        target: newtab
+        statusCheck: true
+        tags: [Website, WordPress, Native]
+
+  - name: 📖 Documentation & Portails
+    icon: fas fa-book
+    displayData:
+      cols: 2
+    items:
+      - title: MkDocs Documentation
+        description: "Documentation technique complète - 60+ guides (Services, Infrastructure, Référence)"
+        icon: fas fa-file-alt
+        url: https://docs.srv759970.hstgr.cloud
+        target: newtab
+        statusCheck: true
+        statusCheckUrl: https://docs.srv759970.hstgr.cloud
+        tags: [Docs, MkDocs Material, HTTPS]
+
+      - title: Dashy Dashboard (Ce Portail)
+        description: "Dashboard de navigation centralisé - 30+ services"
+        icon: fas fa-th-large
+        url: https://dashy.srv759970.hstgr.cloud
+        target: newtab
+        statusCheck: true
+        tags: [Dashboard, Portal, Navigation, HTTPS]
+
+  - name: 📡 Infrastructure & Services Système
+    icon: fas fa-server
+    displayData:
+      collapsed: false
+      cols: 3
+    widgets:
+      - type: clock
+        options:
+          timeZone: Europe/Paris
+          format: fr-FR
+          hideDate: false
+    items:
+      - title: Redis Queue (Partagé)
+        description: "rq-queue-redis:6379 - DB 0: WhisperX (transcription) | DB 1: Faster-Whisper"
+        icon: hl-redis
+        tags: [Redis, Queue, Shared, Infrastructure]
+
+      - title: WhisperX Worker
+        description: "Worker RQ pour WhisperX - Queue DB 0 (transcription)"
+        icon: fas fa-cog
+        tags: [Worker, RQ, WhisperX, Background]
+
+      - title: Faster-Whisper Worker
+        description: "Worker RQ pour Faster-Whisper - Queue DB 1"
+        icon: fas fa-cog
+        tags: [Worker, RQ, FasterWhisper, Background]
+
+      - title: Postfix Email Server
+        description: "SMTP serveur - Ports 25, 587 (STARTTLS), 465 (SSL/TLS)"
+        icon: fas fa-envelope
+        tags: [Email, SMTP, System, TLS]
+
+      - title: OpenDKIM
+        description: "Email authentication - DKIM signatures pour SPF/DKIM/DMARC"
+        icon: fas fa-shield-alt
+        tags: [Email, DKIM, Security, System]
+
+      - title: Docker Engine
+        description: "Container runtime - 40+ conteneurs, réseaux partagés"
+        icon: hl-docker
+        tags: [Docker, Runtime, Infrastructure]
+
+  - name: 🔐 Sécurité & Authentification
+    icon: fas fa-lock
+    displayData:
+      cols: 3
+    items:
+      - title: Let's Encrypt (Certbot)
+        description: "Certificats SSL/TLS pour tous les domaines - Auto-renewal activé"
+        icon: fas fa-certificate
+        tags: [SSL, TLS, Security, Certbot]
+
+      - title: Nginx Reverse Proxy
+        description: "Proxy inverse pour 13+ services - Basic Auth + SSL/TLS"
+        icon: hl-nginx
+        tags: [Nginx, Proxy, Security, HTTPS]
+
+      - title: Basic Auth Protection
+        description: "13 services protégés - .htpasswd (julien:DevAccess2025)"
+        icon: fas fa-user-shield
+        tags: [Auth, Basic, Security, Protection]
+
+  - name: 📦 Services RAG & Knowledge Graph
+    icon: fas fa-database
+    displayData:
+      cols: 3
+      collapsed: true
+    items:
+      - title: RAGFlow MySQL
+        description: "Base de données MySQL pour RAGFlow"
+        icon: hl-mysql
+        tags: [Database, MySQL, RAGFlow]
+
+      - title: RAGFlow Elasticsearch
+        description: "Moteur de recherche Elasticsearch pour RAGFlow"
+        icon: hl-elasticsearch
+        tags: [Search, ElasticSearch, RAGFlow]
+
+      - title: RAGFlow Redis
+        description: "Cache Redis pour RAGFlow"
+        icon: hl-redis
+        tags: [Cache, Redis, RAGFlow]
+
+      - title: RAGFlow MinIO
+        description: "Object storage MinIO pour documents RAGFlow"
+        icon: fas fa-hdd
+        tags: [Storage, MinIO, RAGFlow]
+
+      - title: Promtail (Loki Agent)
+        description: "Log shipper - Forward Docker logs vers Loki"
+        icon: fas fa-shipping-fast
+        tags: [Logs, Loki, Promtail]
+
+      - title: RQ Exporter
+        description: "Prometheus exporter pour métriques Redis Queue"
+        icon: fas fa-download
+        tags: [Metrics, Exporter, RQ, Prometheus]
+
+  - name: 🔗 Liens Rapides - Swagger/OpenAPI
+    icon: fas fa-api
+    displayData:
+      cols: 3
+      collapsed: false
+    items:
+      - title: WhisperX - Swagger UI
+        description: "Documentation API interactive WhisperX"
+        icon: fas fa-book-open
+        url: https://whisperx.srv759970.hstgr.cloud/docs
+        target: newtab
+        tags: [Swagger, OpenAPI, Docs]
+
+      - title: WhisperX - ReDoc
+        description: "Documentation API alternative WhisperX"
+        icon: fas fa-book
+        url: https://whisperx.srv759970.hstgr.cloud/redoc
+        target: newtab
+        tags: [ReDoc, OpenAPI, Docs]
+
+      - title: Faster-Whisper Queue - Swagger UI
+        description: "Documentation API interactive Faster-Whisper Queue"
+        icon: fas fa-book-open
+        url: https://faster-whisper.srv759970.hstgr.cloud/docs
+        target: newtab
+        tags: [Swagger, OpenAPI, Docs]
+
+      - title: Faster-Whisper Queue - ReDoc
+        description: "Documentation API alternative Faster-Whisper Queue"
+        icon: fas fa-book
+        url: https://faster-whisper.srv759970.hstgr.cloud/redoc
+        target: newtab
+        tags: [ReDoc, OpenAPI, Docs]
+
+      - title: Faster-Whisper - Swagger UI
+        description: "Documentation API interactive Faster-Whisper (direct)"
+        icon: fas fa-book-open
+        url: https://whisper.srv759970.hstgr.cloud/docs
+        target: newtab
+        tags: [Swagger, OpenAPI, Docs]
+
+      - title: NeuTTS-Air - Swagger UI
+        description: "Documentation API interactive TTS"
+        icon: fas fa-book-open
+        url: https://neutts-api.srv759970.hstgr.cloud/docs
+        target: newtab
+        tags: [Swagger, OpenAPI, TTS, Docs]
+
+      - title: MemVid RAG - Swagger UI
+        description: "Documentation API interactive MemVid"
+        icon: fas fa-book-open
+        url: https://memvid.srv759970.hstgr.cloud/docs
+        target: newtab
+        tags: [Swagger, OpenAPI, RAG, Docs]
+
+      - title: RAG-Anything - Swagger UI
+        description: "Documentation API interactive RAG-Anything"
+        icon: fas fa-book-open
+        url: https://rag-anything.srv759970.hstgr.cloud/docs
+        target: newtab
+        tags: [Swagger, OpenAPI, RAG, Docs]
+
+      - title: Portail Swagger Unifié
+        description: "Swagger UI centralisé pour toutes les APIs"
+        icon: fas fa-layer-group
+        url: https://portal.srv759970.hstgr.cloud/api
+        target: newtab
+        tags: [Swagger, Portal, Multi-API]
+
+  - name: ℹ️ Informations Serveur
+    icon: fas fa-info-circle
+    displayData:
+      cols: 1
+      collapsed: true
+    widgets:
+      - type: iframe
+        options:
+          url: https://docs.srv759970.hstgr.cloud
+    items:
+      - title: Serveur VPS
+        description: "srv759970.hstgr.cloud | IP: 69.62.108.82 | Ubuntu 24.04.2 LTS | Uptime: 195+ jours"
+        icon: hl-ubuntu
+        tags: [Server, Info, VPS]
+
+      - title: Docker Version
+        description: "Docker 24.0.x + Docker Compose 2.x | 40+ conteneurs actifs"
+        icon: hl-docker
+        tags: [Docker, Info, Version]
+
+      - title: Services Totaux
+        description: "30+ services déployés | 13 protégés par Basic Auth | 8+ APIs avec Swagger"
+        icon: fas fa-cubes
+        tags: [Stats, Info, Services]
+
+      - title: Impro Manager
+        description: "Gestion de matchs d'improvisation théâtrale avec bibliothèque musicale (777+ pistes)"
+        icon: fas fa-theater-masks
+        url: https://zimprobagnais.srv759970.hstgr.cloud
+        target: newtab
+        statusCheck: true
+        statusCheckUrl: https://zimprobagnais.srv759970.hstgr.cloud/api/health
+        tags: [App, Impro, Music, Vue.js, HTTPS]

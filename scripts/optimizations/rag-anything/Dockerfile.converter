@@ -1,0 +1,39 @@
+# ==================================================
+# DOCUMENT CONVERTER SERVICE (Optional)
+# ==================================================
+# For Office document conversion using LibreOffice
+# Size: ~800 MB (separate from main RAG service)
+# ==================================================
+
+FROM python:3.12-slim
+
+WORKDIR /app
+
+# Install LibreOffice for document conversion
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libreoffice \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install minimal Python dependencies
+RUN pip install --no-cache-dir \
+    fastapi==0.104.0 \
+    uvicorn[standard]==0.24.0 \
+    python-multipart==0.0.6
+
+# Create non-root user
+RUN groupadd -r converter && useradd -r -g converter converter \
+    && mkdir -p /app/temp \
+    && chown -R converter:converter /app
+
+# Copy converter script
+COPY --chown=converter:converter converter_service.py .
+
+USER converter
+
+HEALTHCHECK --interval=30s --timeout=10s --retries=3 \
+    CMD curl -f http://localhost:9511/health || exit 1
+
+EXPOSE 9511
+
+CMD ["uvicorn", "converter_service:app", "--host", "0.0.0.0", "--port", "9511"]

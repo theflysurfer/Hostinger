@@ -1,0 +1,144 @@
+version: '3.8'
+
+networks:
+  databases:
+    name: databases-shared
+    driver: bridge
+
+volumes:
+  mongo-data:
+    driver: local
+  postgres-data:
+    driver: local
+  redis-data:
+    driver: local
+
+services:
+  mongodb:
+    image: mongo:7
+    container_name: mongodb-shared
+    restart: unless-stopped
+    networks:
+      - databases
+    ports:
+      - '127.0.0.1:27017:27017'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+    volumes:
+      - ./mongo-data:/data/db
+      - ./mongo-init:/docker-entrypoint-initdb.d:ro
+    command: mongod --auth --replSet rs0
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    mem_limit: 1g
+    cpus: 1.0
+    labels:
+      - 'com.centurylinklabs.watchtower.enable=true'
+      - 'prometheus.scrape=true'
+      - 'prometheus.port=9216'
+
+  mongodb-exporter:
+    image: percona/mongodb_exporter:0.40
+    container_name: mongodb-exporter
+    restart: unless-stopped
+    networks:
+      - databases
+    ports:
+      - '127.0.0.1:9216:9216'
+    environment:
+      MONGODB_URI: 'mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@mongodb:27017'
+    depends_on:
+      - mongodb
+    mem_limit: 128m
+
+  postgresql:
+    image: postgres:17-alpine
+    container_name: postgresql-shared
+    restart: unless-stopped
+    networks:
+      - databases
+    ports:
+      - '127.0.0.1:5432:5432'
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+      - ./postgres-init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER}']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    mem_limit: 512m
+    cpus: 1.0
+    labels:
+      - 'com.centurylinklabs.watchtower.enable=true'
+      - 'prometheus.scrape=true'
+      - 'prometheus.port=9187'
+
+  postgres-exporter:
+    image: prometheuscommunity/postgres-exporter:latest
+    container_name: postgres-exporter
+    restart: unless-stopped
+    networks:
+      - databases
+    ports:
+      - '127.0.0.1:9187:9187'
+    environment:
+      DATA_SOURCE_NAME: 'postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgresql:5432/postgres?sslmode=disable'
+    depends_on:
+      - postgresql
+    mem_limit: 128m
+
+  redis-shared:
+    image: redis:7-alpine
+    container_name: redis-shared
+    restart: unless-stopped
+    networks:
+      - databases
+    ports:
+      - '127.0.0.1:6379:6379'
+    volumes:
+      - ./redis-data:/data
+    command: >
+      redis-server
+      --requirepass ${REDIS_PASSWORD}
+      --maxmemory 512mb
+      --maxmemory-policy allkeys-lru
+      --save ""
+      --appendonly no
+    healthcheck:
+      test: ['CMD', 'redis-cli', '--raw', 'incr', 'ping']
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 30s
+    mem_limit: 512m
+    labels:
+      - 'com.centurylinklabs.watchtower.enable=true'
+      - 'prometheus.scrape=true'
+      - 'prometheus.port=9121'
+
+  redis-exporter:
+    image: oliver006/redis_exporter:latest
+    container_name: redis-exporter
+    restart: unless-stopped
+    networks:
+      - databases
+    ports:
+      - '127.0.0.1:9121:9121'
+    environment:
+      REDIS_ADDR: 'redis-shared:6379'
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+    depends_on:
+      - redis-shared
+    mem_limit: 64m

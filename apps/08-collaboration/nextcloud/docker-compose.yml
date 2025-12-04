@@ -1,0 +1,108 @@
+version: '3.8'
+
+networks:
+  nextcloud:
+    name: nextcloud
+    driver: bridge
+  databases:
+    external:
+      name: databases-shared
+
+volumes:
+  nextcloud-data:
+    driver: local
+  onlyoffice-data:
+    driver: local
+  onlyoffice-log:
+    driver: local
+
+services:
+  nextcloud:
+    image: nextcloud:29-apache
+    container_name: nextcloud
+    restart: unless-stopped
+    networks:
+      - nextcloud
+      - databases
+    ports:
+      - '127.0.0.1:8505:80'
+    environment:
+      - NEXTCLOUD_ADMIN_USER=${NEXTCLOUD_ADMIN_USER}
+      - NEXTCLOUD_ADMIN_PASSWORD=${NEXTCLOUD_ADMIN_PASSWORD}
+      - NEXTCLOUD_TRUSTED_DOMAINS=${NEXTCLOUD_TRUSTED_DOMAINS}
+      - POSTGRES_HOST=${POSTGRES_HOST}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_HOST_PORT=${REDIS_HOST_PORT}
+      - REDIS_HOST_PASSWORD=${REDIS_HOST_PASSWORD}
+      - PHP_MEMORY_LIMIT=512M
+      - PHP_UPLOAD_LIMIT=10G
+    volumes:
+      - ./data:/var/www/html/data
+      - ./apps:/var/www/html/custom_apps
+      - ./config:/var/www/html/config
+      - ./themes:/var/www/html/themes
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost/status.php']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    mem_limit: 1g
+    cpus: 2.0
+    labels:
+      - 'com.centurylinklabs.watchtower.enable=true'
+
+  nextcloud-cron:
+    image: nextcloud:29-apache
+    container_name: nextcloud-cron
+    restart: unless-stopped
+    networks:
+      - nextcloud
+      - databases
+    environment:
+      - POSTGRES_HOST=${POSTGRES_HOST}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - ./data:/var/www/html/data
+      - ./apps:/var/www/html/custom_apps
+      - ./config:/var/www/html/config
+    entrypoint: /cron.sh
+    depends_on:
+      - nextcloud
+    mem_limit: 256m
+
+  onlyoffice:
+    image: onlyoffice/documentserver:latest
+    container_name: onlyoffice
+    restart: unless-stopped
+    networks:
+      - nextcloud
+    ports:
+      - '127.0.0.1:8508:80'
+    environment:
+      - JWT_ENABLED=true
+      - JWT_SECRET=${ONLYOFFICE_JWT_SECRET}
+      - DB_TYPE=postgres
+      - DB_HOST=postgresql-shared
+      - DB_PORT=5432
+      - DB_NAME=onlyoffice
+      - DB_USER=onlyoffice
+      - DB_PWD=${ONLYOFFICE_DB_PASSWORD}
+    volumes:
+      - onlyoffice-data:/var/www/onlyoffice/Data
+      - onlyoffice-log:/var/log/onlyoffice
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost/healthcheck']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 120s
+    mem_limit: 2g
+    cpus: 2.0
+    labels:
+      - 'com.centurylinklabs.watchtower.enable=true'

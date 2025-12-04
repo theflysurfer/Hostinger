@@ -1,0 +1,65 @@
+# ==================================================
+# DISCORD BOT - DOCKERFILE OPTIMISÉ (Option B)
+# ==================================================
+# Réduction estimée: 810 MB → 405 MB (-50%)
+# Sécurité: Déjà bon (non-root user), amélioration multi-stage
+# ==================================================
+
+# ==================================================
+# Stage 1: Builder
+# ==================================================
+FROM python:3.11-slim AS builder
+
+WORKDIR /build
+
+# Install build dependencies for voice support
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc \
+    libffi-dev \
+    libnacl-dev \
+    libopus-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create virtual environment
+RUN python -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Copy and install Python dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
+
+# ==================================================
+# Stage 2: Runtime
+# ==================================================
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install ONLY runtime dependencies for voice support
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libopus0 \
+    ffmpeg \
+    procps \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create non-root user
+RUN useradd -m -u 1000 discordbot && \
+    chown -R discordbot:discordbot /app
+
+# Copy virtual environment from builder
+COPY --from=builder --chown=discordbot:discordbot /opt/venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Copy bot code
+COPY --chown=discordbot:discordbot bot.py .
+
+# Switch to non-root user
+USER discordbot
+
+# Health check (check if process is running)
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD pgrep -f "python bot.py" || exit 1
+
+# Run bot
+CMD ["python", "-u", "bot.py"]

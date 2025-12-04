@@ -1,399 +1,253 @@
-# 🏠 Hostinger VPS - Documentation
+# 🏠 Hostinger Server Management
 
-Documentation complète pour le déploiement et la gestion d'applications sur le VPS Hostinger.
+**Documentation complète pour srv759970.hstgr.cloud**
 
----
-
-## 📚 Fichiers de documentation
-
-| Fichier | Description | Public cible |
-|---------|-------------|--------------|
-| **docs/guides/GUIDE_DEPLOIEMENT_VPS.md** | Déploiement d'applications Docker (Streamlit, Flask, React...) | Humains et LLM |
-| **docs/guides/GUIDE_SERVICES_SYSTEMD.md** | Déploiement de services systemd (Ollama, PostgreSQL...) | Humains et LLM |
-| **docs/guides/GUIDE_NGINX.md** | Configuration Nginx (sites statiques, reverse proxy, multi-sites) | Humains et LLM |
-| **docs/guides/GUIDE_TROUBLESHOOTING_NGINX.md** | 🆕 Problèmes Nginx courants et solutions (SNI, SSL, redirections) | Humains et LLM |
-| **docs/guides/GUIDE_WORDPRESS_DOCKER.md** | 🆕 WordPress en Docker (PHP-FPM, MySQL, permissions, migration complète, bonnes pratiques) | Humains et LLM |
-| **docs/guides/GUIDE_WORDPRESS_MULTISITE.md** | Installation et configuration WordPress multisite | Humains et LLM |
-| **docs/guides/GUIDE_ASTRO.md** | Déploiement sites Astro (SSG, build statique, troubleshooting) | Humains et LLM |
-| **docs/guides/GUIDE_STRAPI.md** | Déploiement Strapi CMS (Docker, Node 22, solutions bugs Vite) | Humains et LLM |
-| **docs/guides/GUIDE_TIKA.md** | 🆕 Apache Tika Server - Document parsing API (PDF, Office, OCR) | Humains et LLM |
-| **docs/guides/GUIDE_WHISPER_SERVICES.md** | 🆕 Whisper APIs - Speech-to-text (faster-whisper + WhisperX diarization) | Humains et LLM |
-| **docs/GUIDE_MONITORING_WHISPERX.md** | 🆕 **Monitoring WhisperX** - Grafana + Prometheus + Loki (métriques + logs temps réel) | Humains et LLM |
-| **docs/guides/GUIDE_API_PORTAL.md** | 🆕 API & Admin Portal - Swagger UI + Monitoring (Portainer, Dozzle, Netdata) | Humains et LLM |
-| **docs/guides/GUIDE_EMAIL.md** | 🆕 Serveur email Postfix + OpenDKIM (SMTP, SPF/DKIM/DMARC, WordPress) | Humains et LLM |
-| **docs/guides/GUIDE_DOCKER_AUTOSTART.md** | 🆕 Auto-start/stop Docker - Économise RAM (pages d'attente, mode blocking) | Humains et LLM |
-| **INSTRUCTIONS_LLM.md** | Workflows et règles pour assistants IA (principe DRY) | LLM uniquement |
-| **README.md** | Ce fichier - Vue d'ensemble | Tous |
+[![Documentation](https://img.shields.io/badge/docs-MkDocs-blue)](https://docs.srv759970.hstgr.cloud)
+[![Server Status](https://img.shields.io/badge/status-online-green)]()
+[![Apps](https://img.shields.io/badge/apps-45-orange)]()
 
 ---
 
-## 🚀 Quick Start
+## 📚 Documentation
 
-### Scripts automatisés (Recommandé)
+**🆕 Version 2.0 - Structure Restructurée**
 
-**Nouveau !** Utilisez les scripts batch interactifs :
+La documentation a été complètement reorganisée pour une meilleure clarté :
+
+### Accès Rapide
+- **[Documentation MkDocs](new-docs/)** - Documentation complète navigable
+- **[Migration Report](MIGRATION_REPORT.md)** - Détails de la restructuration
+- **[Emergency Runbook](docs/EMERGENCY_RUNBOOK.md)** - Procédures d'urgence
+
+### Structure
+```
+Hostinger/
+├── apps/                    # 45 applications (13 catégories)
+│   ├── 01-wordpress/       # Sites WordPress (5)
+│   ├── 02-ai-transcription/# WhisperX, Faster-Whisper
+│   ├── 11-dashboards/      # Energie Dashboard (DownTo40) 🔴
+│   └── 13-infrastructure/  # Services infrastructure
+├── infrastructure/          # Infrastructure serveur
+│   ├── nginx/              # Nginx Manager (repo externe)
+│   ├── server/             # Config serveur, users, fail2ban
+│   └── ssl/                # Gestion certificats SSL
+├── new-docs/               # Documentation MkDocs
+└── scripts/                # Scripts d'administration
+```
+
+---
+
+## 🎯 Quick Start
+
+### Accès Serveur
 
 ```bash
-# Déployer une nouvelle application
+# SSH (compte automation)
+ssh automation@69.62.108.82
+
+# Voir les conteneurs actifs
+docker ps --format 'table {{.Names}}\t{{.Status}}'
+
+# Ressources système
+free -h && df -h
+```
+
+### Applications Principales
+
+| Application | URL | Status |
+|-------------|-----|--------|
+| **Energie Dashboard** 🔴 | https://energie.srv759970.hstgr.cloud | `production` |
+| **Dashy Portal** | https://dashy.srv759970.hstgr.cloud | `production` |
+| **WordPress Clemence** | https://clemencefouquet.fr | `production` |
+| **WhisperX API** | https://whisperx.srv759970.hstgr.cloud | `production` |
+| **RAGFlow** | https://ragflow.srv759970.hstgr.cloud | `production` |
+| **Grafana** | https://monitoring.srv759970.hstgr.cloud | `production` |
+
+---
+
+## 📊 État du Serveur
+
+### Infrastructure
+
+| Composant | Status | Notes |
+|-----------|--------|-------|
+| **Serveur** | 🟢 Online | Ubuntu 24.04.2 LTS |
+| **RAM** | 🟢 9 GB libre / 15 GB | 60% utilisée |
+| **Disque** | 🟢 116 GB libre / 193 GB | 40% utilisé |
+| **Conteneurs** | 🟢 36 actifs / 64 | Optimisé auto-start |
+| **Nginx** | 🟢 Active | 30+ sites configurés |
+
+### Applications par Catégorie
+
+| Catégorie | Nombre | Exemples |
+|-----------|--------|----------|
+| 🌐 WordPress | 5 | clemence, solidarlink |
+| 🎤 AI Transcription | 3 | whisperx, faster-whisper |
+| 🤖 AI RAG | 3 | ragflow, memvid |
+| 📊 Dashboards | 5 | energie-dashboard 🔴, photos-chantier |
+| 🔧 Infrastructure | 5 | databases-shared, docker-autostart |
+| *(8 autres catégories)* | 24 | Voir [documentation](new-docs/) |
+
+---
+
+## 🛠️ Outils et Scripts
+
+### Scripts Batch (Windows)
+
+```bash
+# Déployer une application
 scripts/deploy.bat
 
-# Mettre à jour une application existante
+# Mettre à jour une application
 scripts/update.bat
 
-# Gérer les applications (logs, redémarrer, etc.)
+# Gérer les applications (logs, restart, etc.)
 scripts/manage.bat
 ```
 
-### Pour un humain
+### Nginx Manager
 
-**Application Docker** (Streamlit, Flask, React, etc.) :
-1. Ouvrez **docs/guides/GUIDE_DEPLOIEMENT_VPS.md**
-2. Suivez la section "Déployer une nouvelle application"
-3. Utilisez les templates fournis
-
-**Service systemd** (Ollama, PostgreSQL, etc.) :
-1. Ouvrez **docs/guides/GUIDE_SERVICES_SYSTEMD.md**
-2. Suivez les exemples (ex: Ollama)
-3. Adaptez à votre service
-
-### Pour un LLM
-
-1. Lisez **INSTRUCTIONS_LLM.md** (workflow + règles DRY)
-2. Identifiez le type de déploiement (Docker vs systemd)
-3. Lisez le guide technique approprié
-4. Suivez le workflow autonome
-
----
-
-## 📊 État actuel du serveur
-
-### Informations serveur
-
-- **IP** : `69.62.108.82`
-- **Hostname** : `srv759970.hstgr.cloud`
-- **OS** : Ubuntu 24.04.2 LTS
-- **Uptime** : 195+ jours
-
-### Applications et services déployés
-
-| Application/Service | Type | Port(s) | Status | Path/Service |
-|---------------------|------|---------|--------|--------------|
-| Support Dashboard | Docker | 8501 | ✅ En ligne | `/opt/support-dashboard/` |
-| SharePoint Dashboards | Docker | 8502 | ✅ En ligne | `/opt/sharepoint-dashboards/` |
-| Cristina Site (Astro) | Static | 80 (Nginx) | ✅ En ligne | `/opt/cristina-site/` |
-| Cristina Admin (Strapi) | Docker | 1337 | ✅ En ligne | `/opt/cristina-backend/` |
-| **Clémence Site** | **Docker (WordPress FPM + MySQL)** | **9002** | ✅ **En ligne** | `/opt/wordpress-clemence/` |
-| SolidarLink Site | WordPress (PHP 8.3) | 80 (Nginx) | ⏸️ Suspendu | `/var/www/solidarlink/` |
-| ~~WordPress Multisite~~ | ~~PHP 8.3~~ | ~~80~~ | ⛔ À décommissionner | ~~`/var/www/wordpress/`~~ |
-| Whisper API (faster-whisper) | Docker | 8001 | ✅ En ligne (auto-start) | `/opt/whisper-faster/` |
-| WhisperX API (diarization) | Docker | 8002 | ✅ En ligne (auto-start) | `/opt/whisperx/` |
-| Ollama API | Systemd | 11434 (local), 11435 (public) | ✅ En ligne | `ollama.service` |
-| Apache Tika Server | Docker | 9998 | ✅ En ligne (auto-start) | `/opt/tika-server/` |
-| API Portal (Swagger UI) | Docker | 8503 | ✅ En ligne | `/opt/api-portal/` |
-| Portainer (Docker GUI) | Docker | 9000 | ✅ En ligne | Container: portainer |
-| Dozzle (Logs Viewer) | Docker | 8888 | ✅ En ligne | Container: dozzle |
-| Netdata (System Monitor) | Docker | 19999 | ✅ En ligne | Container: netdata |
-| Postfix Email Server | Systemd | 25, 587 | ✅ En ligne | `postfix.service` |
-| OpenDKIM | Systemd | - | ✅ En ligne | `opendkim.service` |
-| **RAGFlow** | **Docker** | **9500, 9501** | ✅ **En ligne** | `/opt/ragflow/` |
-| **RAG-Anything API** | **Docker** | **9510** | 🔄 **Déploiement** | `/opt/rag-anything/` |
-| **Grafana (Monitoring)** | **Docker** | **3001** | ✅ **En ligne** | `/opt/monitoring/` |
-| **Prometheus** | **Docker** | **9090** | ✅ **En ligne** | `/opt/monitoring/` |
-| **Loki** | **Docker** | **3100** | ✅ **En ligne** | `/opt/monitoring/` |
-| **RQ Exporter** | **Docker** | **9726** | ✅ **En ligne** | `/opt/monitoring/` |
-
-### Ports disponibles
-
-- `9520` ➡️ Disponible
-- `9530` ➡️ Disponible
-- `9540` ➡️ Disponible
-- ...
-
----
-
-## 🔑 Accès rapide
-
-### SSH
+**⚠️ Repo externe actif** : `C:\Users\JulienFernandez\OneDrive\Coding\_Projets de code\2025.10 Nginx Manager`
 
 ```bash
-ssh root@69.62.108.82
+# Health check
+./scripts/health-check.sh
+
+# Déployer une config (avec backup automatique)
+./scripts/nginx-deploy.sh configs/sites-available/mon-site mon-site
+
+# Rollback si problème
+./scripts/nginx-rollback.sh --list mon-site
 ```
 
-### Panel Hostinger
-
-https://hpanel.hostinger.com/
-
-### Applications et services
-
-- **Support Dashboard** : https://dashboard.srv759970.hstgr.cloud ou https://srv759970.hstgr.cloud
-- **SharePoint Dashboards** : https://sharepoint.srv759970.hstgr.cloud
-- **Cristina Site** : https://cristina.srv759970.hstgr.cloud
-- **Cristina Admin** : https://admin.cristina.srv759970.hstgr.cloud/admin
-- **Clémence Site** : https://clemence.srv759970.hstgr.cloud
-- **SolidarLink Site** : https://solidarlink.srv759970.hstgr.cloud
-- **Whisper API (faster-whisper)** : https://whisper.srv759970.hstgr.cloud
-- **WhisperX API (diarization)** : https://whisperx.srv759970.hstgr.cloud
-- **Ollama API** : http://69.62.108.82:11435
-- **Apache Tika API** : https://tika.srv759970.hstgr.cloud
-- **🎯 API & Admin Portal** : https://portal.srv759970.hstgr.cloud
-- **🤖 RAGFlow** : https://ragflow.srv759970.hstgr.cloud
-- **🎨 RAG-Anything API** : https://rag-anything.srv759970.hstgr.cloud (en cours de déploiement)
-- **📊 Grafana Monitoring** : https://monitoring.srv759970.hstgr.cloud (admin / YourSecurePassword2025!)
+**Documentation** : Voir [infrastructure/nginx/README.md](infrastructure/nginx/README.md)
 
 ---
 
-## 🛠️ Scripts disponibles
+## 🔒 Sécurité
 
-### 1. `deploy.bat` - Déploiement automatique
+### Compte Automation
 
-Script interactif qui automatise **tout le workflow** de déploiement :
+Le serveur utilise le compte `automation` au lieu de root :
+- ✅ Sudo quasi-total (sauf reboot/shutdown)
+- ✅ Logs séparés (`/var/log/sudo-automation.log`)
+- ✅ Révocable sans casser le système
 
-**Ce qu'il fait** :
-1. ✅ Vérifie la connexion SSH
-2. ✅ Vous demande le type d'application (Streamlit, Flask, FastAPI, Node, React)
-3. ✅ Génère automatiquement Dockerfile et docker-compose.yml
-4. ✅ Trouve un port disponible automatiquement
-5. ✅ Crée la structure sur le VPS
-6. ✅ Transfère les fichiers
-7. ✅ Build l'image Docker
-8. ✅ Lance le conteneur
-9. ✅ Vérifie que tout fonctionne
-10. ✅ Vous donne l'URL finale
+**Documentation** : [Automation User Security](docs/guides/infrastructure/automation-user-security.md)
 
-**Utilisation** :
-```bash
-cd C:\Users\JulienFernandez\OneDrive\Coding\_référentiels de code\Hostinger
-scripts\deploy.bat
-```
+### Nginx Security
 
-Suivez simplement les questions à l'écran !
+**Audit complété le 2025-10-28** :
+- ✅ Score moyen : 85% (+39% amélioration)
+- ✅ 4/4 sites WordPress sécurisés
+- ✅ Fail2ban actif (3 jails)
+- ✅ Rate limiting configuré
+- ✅ SSL/TLS hardening
 
 ---
 
-### 2. `update.bat` - Mise à jour d'application
+## 📖 Documentation Guides
 
-Met à jour une application déjà déployée.
+### Infrastructure
+- **[Serveur](new-docs/docs/01-infrastructure/server.md)** - Configuration système
+- **[Nginx](new-docs/docs/01-infrastructure/nginx.md)** - Reverse proxy, SSL
+- **[Bases de Données](new-docs/docs/01-infrastructure/databases.md)** - PostgreSQL, Redis, MongoDB
+- **[Docker](new-docs/docs/01-infrastructure/docker.md)** - Architecture conteneurs
 
-**Ce qu'il fait** :
-- Liste toutes les applications déployées
-- Vous laisse choisir ce que vous voulez mettre à jour :
-  - **Tout** : Code + rebuild complet (slow mais safe)
-  - **Code seulement** : Sans rebuild (rapide)
-  - **Base de données seulement** : Juste les fichiers .db
-  - **Redémarrer** : Sans changement
+### Applications
+- **[WordPress Clemence](new-docs/docs/02-applications/wordpress/clemence.md)** - Site client principal
+- **[WhisperX](new-docs/docs/02-applications/ai-transcription/whisperx.md)** - API transcription
+- **[Energie Dashboard](new-docs/docs/02-applications/dashboards/energie-dashboard.md)** - Projet DownTo40 🔴
 
-**Utilisation** :
-```bash
-scripts\update.bat
-```
-
----
-
-### 3. `manage.bat` - Gestion des applications
-
-Interface interactive pour gérer toutes vos applications.
-
-**Fonctionnalités** :
-1. 📋 Voir les logs (temps réel ou historique)
-2. 🔄 Redémarrer une application
-3. ⏸️ Arrêter une application
-4. ▶️ Démarrer une application
-5. 🗑️ Supprimer une application
-6. 📊 Voir les ressources (CPU/RAM)
-7. 🧹 Nettoyer Docker
-8. 📂 Lister toutes les applications
-
-**Utilisation** :
-```bash
-scripts\manage.bat
-```
-
-Un menu interactif s'affiche, choisissez simplement l'action.
+### Operations
+- **[Déploiement](docs/guides/GUIDE_DEPLOIEMENT_VPS.md)** - Déployer apps Docker
+- **[Backup & Restore](docs/guides/operations/backup-restore.md)** - Stratégie sauvegarde
+- **[Troubleshooting](docs/guides/infrastructure/nginx-troubleshooting.md)** - Résolution problèmes
 
 ---
 
-## 📞 Commandes rapides (manuelles)
+## 🔄 Auto-Start/Stop System
 
-Si vous préférez la ligne de commande :
+**Optimisation RAM** : Économie de 4.7GB (66%) via auto-start/stop
 
-### Voir tous les conteneurs
+| Service | Mode | Économie RAM | Auto-stop |
+|---------|------|--------------|-----------|
+| Support Dashboard | Dynamic | ~200 MB | 30 min idle |
+| Cristina Strapi | Dynamic | ~300 MB | 30 min idle |
+| WhisperX API | Blocking | ~2 GB | 30 min idle |
+| Tika API | Blocking | ~500 MB | 30 min idle |
 
-```bash
-ssh root@69.62.108.82 "docker ps"
-```
+**Comment ça marche** :
+1. Accès URL → Détection conteneur arrêté
+2. Page d'attente (mode Dynamic) ou attente silencieuse (mode Blocking)
+3. Démarrage automatique du conteneur (~15-20s)
+4. Redirection vers l'app
+5. Auto-stop après 30 min sans requête
 
-### Logs d'une application
-
-```bash
-ssh root@69.62.108.82 "docker logs [nom-conteneur] --tail=50"
-```
-
-### Redémarrer une application
-
-```bash
-ssh root@69.62.108.82 "cd /opt/[nom-app] && docker-compose restart"
-```
-
-### État des ressources
-
-```bash
-ssh root@69.62.108.82 "docker stats --no-stream"
-```
+**Documentation** : [GUIDE_DOCKER_AUTOSTART.md](docs/guides/GUIDE_DOCKER_AUTOSTART.md)
 
 ---
 
-## 🛠️ Services installés
+## 🚨 Emergency
 
-- ✅ Docker 28.2.2
-- ✅ Docker Compose
-- ✅ Nginx 1.24.0
-- ✅ PHP 8.3-FPM (WordPress)
-- ✅ MySQL 8.0 (WordPress)
-- ✅ Git
-- ✅ Certbot (Let's Encrypt)
-- ✅ Curl, rsync
+### En cas de problème
 
----
+1. **Check health** : `./scripts/health-check-all.sh`
+2. **Voir logs** : `docker logs <container> --tail 50`
+3. **Restart service** : `docker restart <container>`
+4. **Nginx rollback** : Voir [Nginx Manager](infrastructure/nginx/README.md)
 
-## 🔋 Optimisation RAM - Auto-Start/Stop Docker
-
-**Problème** : Services peu utilisés consomment constamment de la RAM (7.1GB/8GB = 89%)
-
-**Solution** : Système custom Node.js qui démarre/arrête automatiquement les conteneurs Docker
-
-### 📊 Impact
-
-| État | RAM utilisée | Services actifs |
-|------|-------------|-----------------|
-| **Avant** (tous actifs) | 7.1GB / 8GB (89%) | Tous les conteneurs running |
-| **Après** (auto-start) | 2.4GB / 8GB (30%) | Seulement services critiques |
-| **Économie** | **4.7GB (66%)** | Conteneurs arrêtés au repos |
-
-### ⚙️ Services avec auto-start
-
-| Service | Mode | Page d'attente | Idle timeout |
-|---------|------|----------------|--------------|
-| Support Dashboard | Dynamic | ✅ Matrix theme | 30 min |
-| SharePoint Dashboards | Dynamic | ✅ Shuffle theme | 30 min |
-| Cristina Admin (Strapi) | Dynamic | ✅ Ghost theme | 30 min |
-| Clémence Site (WordPress) | Dynamic | ✅ Ghost theme | 30 min |
-| SolidarLink (WordPress) | Dynamic | ✅ Hacker Terminal | 30 min |
-| Whisper API (faster-whisper) | Blocking | ❌ Attend silencieusement | 30 min |
-| WhisperX API (diarization) | Blocking | ❌ Attend silencieusement | 30 min |
-| Tika API | Blocking | ❌ Attend silencieusement | 30 min |
-
-### 🚀 Comment ça marche
-
-1. **Accès à l'URL** : https://dashboard.srv759970.hstgr.cloud
-2. **Conteneurs arrêtés ?**
-   - **Mode Dynamic** : Affiche page d'attente animée pendant ~15-20s
-   - **Mode Blocking** : Attend silencieusement que l'API démarre
-3. **Démarrage automatique** : `docker-compose start` lancé en arrière-plan
-4. **Redirection** : Une fois prêt, proxifie vers le conteneur
-5. **Auto-stop** : Après 30 min sans requête, conteneurs arrêtés automatiquement
-
-### 📁 Commandes utiles
-
-```bash
-# Voir logs auto-start
-journalctl -u docker-autostart -f
-
-# Statut service
-systemctl status docker-autostart
-
-# Forcer arrêt pour test
-cd /opt/support-dashboard && docker-compose stop
-```
-
-**Documentation complète** : [GUIDE_DOCKER_AUTOSTART.md](docs/guides/GUIDE_DOCKER_AUTOSTART.md)
+### Contacts
+- **Emergency Runbook** : [docs/EMERGENCY_RUNBOOK.md](docs/EMERGENCY_RUNBOOK.md)
+- **Incident History** : [infrastructure/nginx/sessions/](infrastructure/nginx/sessions/)
 
 ---
 
-## 📖 Pour aller plus loin
+## 📝 Changelog
 
-Consultez les guides détaillés :
+### v2.0.0 (2025-10-28) - Restructuration Majeure
+- ✅ 45 apps organisées en 13 catégories
+- ✅ Documentation MkDocs restructurée
+- ✅ Placeholder Nginx Manager
+- ✅ Tags prod/staging ajoutés
+- ✅ Infrastructure séparée des apps
 
-- **[GUIDE_DEPLOIEMENT_VPS.md](docs/guides/GUIDE_DEPLOIEMENT_VPS.md)** - Déploiement Docker (Streamlit, Flask, React...)
-- **[GUIDE_SERVICES_SYSTEMD.md](docs/guides/GUIDE_SERVICES_SYSTEMD.md)** - Services systemd (Ollama, PostgreSQL...)
-- **[GUIDE_NGINX.md](docs/guides/GUIDE_NGINX.md)** - Configuration Nginx (sites statiques, reverse proxy, troubleshooting)
-- **[GUIDE_TROUBLESHOOTING_NGINX.md](docs/guides/GUIDE_TROUBLESHOOTING_NGINX.md)** - 🆕 Résolution de problèmes Nginx (SNI, SSL, redirections)
-- **[GUIDE_WORDPRESS_DOCKER.md](docs/guides/GUIDE_WORDPRESS_DOCKER.md)** - 🆕 WordPress en Docker (PHP-FPM, MySQL, permissions, migration complète, commandes, bonnes pratiques)
-- **[GUIDE_WORDPRESS_MULTISITE.md](docs/guides/GUIDE_WORDPRESS_MULTISITE.md)** - Installation WordPress multisite
-- **[GUIDE_ASTRO.md](docs/guides/GUIDE_ASTRO.md)** - Déploiement sites Astro (build statique, solutions 404)
-- **[GUIDE_STRAPI.md](docs/guides/GUIDE_STRAPI.md)** - Déploiement Strapi CMS (Docker Node 22, bugs Vite résolus)
-- **[GUIDE_TIKA.md](docs/guides/GUIDE_TIKA.md)** - 🆕 Apache Tika Server (document parsing API, PDF/Office/OCR)
-- **[GUIDE_WHISPER_SERVICES.md](docs/guides/GUIDE_WHISPER_SERVICES.md)** - 🆕 Whisper APIs (faster-whisper + WhisperX diarization, auto-start)
-- **[GUIDE_API_PORTAL.md](docs/guides/GUIDE_API_PORTAL.md)** - 🆕 API & Admin Portal (Swagger UI + Monitoring)
-- **[GUIDE_EMAIL.md](docs/guides/GUIDE_EMAIL.md)** - 🆕 Serveur email Postfix + OpenDKIM (SMTP, SPF/DKIM/DMARC)
-- **[GUIDE_DOCKER_AUTOSTART.md](docs/guides/GUIDE_DOCKER_AUTOSTART.md)** - 🆕 Auto-start/stop Docker (économie RAM 66%, pages d'attente)
-- **[GUIDE_MONITORING_WHISPERX.md](docs/GUIDE_MONITORING_WHISPERX.md)** - 🆕 **Monitoring WhisperX** (Grafana + Prometheus + Loki, dashboards, alertes)
-- **[INSTRUCTIONS_LLM.md](INSTRUCTIONS_LLM.md)** - Workflows pour assistants IA (principe DRY)
+### v1.x (2025-10) - Améliorations continues
+- ✅ Auto-start/stop Docker (-4.7GB RAM)
+- ✅ Nginx Manager sécurisé (score 85%)
+- ✅ Monitoring WhisperX (Grafana + Prometheus)
+- ✅ Migration WordPress Clemence vers Docker
+- ✅ 30+ guides détaillés
 
 ---
 
----
+## 🔗 Liens Utiles
 
-## 🎯 Migrations récentes
+### Dashboards & Monitoring
+- **[Dashy](https://dashy.srv759970.hstgr.cloud)** - Portal principal
+- **[Grafana](https://monitoring.srv759970.hstgr.cloud)** - Métriques
+- **[Portainer](http://69.62.108.82:9000)** - Gestion Docker
+- **[Dozzle](https://dozzle.srv759970.hstgr.cloud)** - Logs temps réel
 
-### WordPress Clémence vers Docker (2025-10-17)
+### Documentation
+- **[MkDocs Local](new-docs/)** - Documentation navigable
+- **[Hostinger Panel](https://hpanel.hostinger.com/)** - Gestion VPS
 
-**Migration réussie** : Site WordPress Clémence de native (PHP-FPM + MySQL) vers Docker (3 conteneurs)
-
-**Avant** :
-- Type : Installation native (PHP 8.3-FPM + MySQL 8.0)
-- Emplacement : `/var/www/clemence/`
-- Stack : Nginx → PHP-FPM socket → MySQL natif
-
-**Après** :
-- Type : Docker (3 conteneurs : WordPress FPM + Nginx + MySQL)
-- Emplacement : `/opt/wordpress-clemence/`
-- Stack : Nginx host (443) → nginx-clemence (9002) → wordpress-clemence (9000) → mysql-clemence (3306)
-
-**Détails techniques** :
-- ✅ Backup complet : 1.2MB SQL + 36MB fichiers (5,015 fichiers)
-- ✅ Plugins migrés : Elementor, Header Footer Elementor, WP Mail SMTP, Akismet, WordPress Importer
-- ✅ Theme : hello-elementor
-- ✅ Uploads : 1.6MB (médias 2025 + assets Elementor)
-- ✅ Permissions : `user: "33:33"` (www-data)
-- ✅ DB_HOST fixé : `mysql-clemence:3306`
-- ✅ Reverse proxy HTTPS : Détection correcte configurée
-- ✅ URLs uniformisées : siteurl et home en HTTPS
-
-**Problèmes rencontrés et résolus** :
-1. Permissions denied → `user: "33:33"` + `define('FS_METHOD', 'direct');`
-2. Boucle redirection 301 → Fix reverse proxy HTTPS dans wp-config.php
-3. DB_HOST localhost → Changement vers `mysql-clemence:3306`
-4. URLs mixtes http/https → Uniformisation en HTTPS
-
-**Résultat** :
-- ✅ Site en ligne : https://clemence.srv759970.hstgr.cloud
-- ✅ HTTP 200 OK
-- ✅ Tous les plugins fonctionnels
-- ✅ Header/Footer Elementor chargent correctement
-- ✅ Admin WordPress accessible
-- ✅ Uploads fonctionnent
-- ✅ Installation plugins fonctionne (pas de demande FTP)
-
-**Temps migration** : ~45 minutes (dont ~30 minutes de debug)
-
-**Documentation créée** :
-- **[GUIDE_WORDPRESS_DOCKER.md](docs/guides/GUIDE_WORDPRESS_DOCKER.md)** - Guide complet migration (architecture, 9 étapes, commandes, bonnes pratiques validées)
-
-**Commandes utiles** :
-```bash
-# Logs
-docker logs wordpress-clemence --tail=50
-
-# Redémarrer
-cd /opt/wordpress-clemence && docker-compose restart
-
-# Stats
-docker stats --no-stream | grep clemence
-
-# Backup
-docker exec mysql-clemence mysqldump -u root -p$MYSQL_ROOT_PASSWORD clemence_db > backup.sql
-```
+### External Repos
+- **[Nginx Manager](C:\Users\JulienFernandez\OneDrive\Coding\_Projets de code\2025.10 Nginx Manager)** - Repo actif
 
 ---
 
-**Dernière mise à jour** : Octobre 2025
+## 📞 Support
+
+**En cas de question** :
+1. Consulter [Documentation MkDocs](new-docs/)
+2. Voir [MIGRATION_REPORT.md](MIGRATION_REPORT.md) pour changements récents
+3. Check [Emergency Runbook](docs/EMERGENCY_RUNBOOK.md)
+
+---
+
+**Serveur** : srv759970.hstgr.cloud (69.62.108.82)
+**OS** : Ubuntu 24.04.2 LTS
+**Uptime** : 195+ jours
+**Dernière mise à jour** : 2025-10-28

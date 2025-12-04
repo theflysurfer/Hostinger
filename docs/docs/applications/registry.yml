@@ -1,0 +1,541 @@
+# Applications Registry - srv759970.hstgr.cloud
+# Metadata for 45 deployed applications
+# Last updated: 2025-12-04
+
+# =============================================================================
+# WORDPRESS SITES (5)
+# Client websites - documentation in project repos
+# =============================================================================
+
+wordpress_sites:
+  - name: clemence
+    full_name: "Clémence Fouquet - Site WordPress"
+    url: https://clemencefouquet.fr
+    internal_url: https://clemence.srv759970.hstgr.cloud
+    port: 9002
+    type: client_app
+    status: production
+    docker_autostart: false  # Always running
+    repo: "C:/Users/julien/OneDrive/Coding/_Projets de code/2025.10 Site internet Clem"
+    containers:
+      - wordpress-clemence
+      - mysql-clemence
+      - nginx-clemence
+    documentation: "See project repo"
+
+  - name: solidarlink
+    full_name: "SolidarLink - Site WordPress"
+    url: https://solidarlink.fr
+    port: 9003
+    type: client_app
+    status: production
+    docker_autostart: false
+    repo: "C:/Users/julien/OneDrive/Coding/_Projets de code/2025.10 Site internet Solidarlink"
+    documentation: "See project repo"
+
+  - name: panneaux-solidaires
+    full_name: "Panneaux Solidaires - Site WordPress"
+    url: https://panneauxsolidaires.fr
+    type: client_app
+    status: production
+    docker_autostart: false
+    documentation: "See project repo"
+
+  - name: jesuishyperphagique
+    full_name: "Je Suis Hyperphagique - Blog WordPress"
+    url: https://jesuishyperphagique.fr
+    type: client_app
+    status: production
+    docker_autostart: false
+    documentation: "See project repo"
+
+  - name: wordpress-generic
+    full_name: "WordPress Instance Générique"
+    type: client_app
+    status: development
+    docker_autostart: true
+    documentation: "See project repo"
+
+# =============================================================================
+# AI/ML SERVICES (8)
+# Shared technical services - documentation in docs/services/
+# =============================================================================
+
+ai_transcription:
+  - name: whisperx
+    full_name: "WhisperX - Transcription avec Diarization"
+    url: https://whisperx.srv759970.hstgr.cloud
+    port: 8002
+    type: shared_service
+    status: production
+    docker_autostart: true  # Heavy RAM usage
+    documentation: "docs/services/whisperx.md"
+    auth: "Basic Auth (julien:DevAccess2025)"
+    features:
+      - transcription
+      - diarization
+      - speaker-identification
+
+  - name: faster-whisper
+    full_name: "Faster Whisper Queue - API Transcription"
+    url: https://faster-whisper.srv759970.hstgr.cloud
+    port: 8003
+    type: shared_service
+    status: production
+    docker_autostart: true
+    documentation: "docs/services/faster-whisper.md"
+
+  - name: intelligent-transcription
+    full_name: "Intelligent Transcription with Jitsi"
+    type: shared_service
+    status: development
+    docker_autostart: false
+    documentation: "docs/services/intelligent-transcription.md"
+
+ai_rag:
+  - name: ragflow
+    full_name: "RAGFlow - RAG Engine"
+    url: https://ragflow.srv759970.hstgr.cloud
+    ports:
+      - 9500  # API
+      - 9501  # Admin
+    type: shared_service
+    status: production
+    docker_autostart: false
+    documentation: "docs/services/ragflow.md"
+    containers:
+      - ragflow-server
+      - ragflow-mysql
+      - ragflow-es-01
+      - ragflow-redis
+      - ragflow-minio
+
+  - name: rag-anything
+    full_name: "RAG-Anything - Multimodal RAG"
+    url: https://rag-anything.srv759970.hstgr.cloud
+    port: 8010
+    type: shared_service
+    status: production
+    docker_autostart: false
+    documentation: "docs/services/rag-anything.md"
+
+  - name: memvid
+    full_name: "MemVid - Video Memory RAG"
+    url: https://memvid.srv759970.hstgr.cloud
+    port: 8020
+    type: shared_service
+    status: production
+    docker_autostart: false
+    documentation: "docs/services/memvid.md"
+
+ai_tts:
+  - name: neutts
+    full_name: "NeuTTS - Text-to-Speech"
+    url: https://neutts.srv759970.hstgr.cloud
+    port: 8030
+    type: shared_service
+    status: staging
+    docker_autostart: true
+    documentation: "docs/services/neutts.md"
+
+  - name: xtts
+    full_name: "XTTS - Advanced TTS"
+    url: https://xtts.srv759970.hstgr.cloud
+    port: 8031
+    type: shared_service
+    status: development
+    docker_autostart: true
+    documentation: "docs/services/xtts.md"
+
+ai_services:
+  - name: tika
+    full_name: "Apache Tika - Document Parsing"
+    url: https://tika.srv759970.hstgr.cloud
+    port: 9998
+    type: shared_service
+    status: production
+    docker_autostart: true
+    documentation: "docs/services/tika.md"
+    features:
+      - document-parsing
+      - ocr
+      - metadata-extraction
+
+  - name: ollama
+    full_name: "Ollama - Local LLM Server"
+    url: http://localhost:11434
+    port: 11434
+    type: shared_service
+    status: production
+    docker_autostart: false
+    documentation: "docs/services/ollama.md"
+
+# =============================================================================
+# DASHBOARDS & CLIENT APPS (5)
+# Custom dashboards - documentation in project repos
+# =============================================================================
+
+dashboards:
+  - name: energie-dashboard
+    full_name: "Energie Dashboard (DownTo40)"
+    url: https://energie.srv759970.hstgr.cloud
+    port: 8501
+    type: client_app
+    status: production
+    priority: high  # Client principal
+    docker_autostart: false
+    repo: "External repo"
+    documentation: "See project repo"
+
+  - name: support-dashboard
+    full_name: "Support Dashboard"
+    url: https://support.srv759970.hstgr.cloud
+    port: 8502
+    type: client_app
+    status: production
+    docker_autostart: true  # Low traffic
+    documentation: "See project repo"
+
+  - name: photos-chantier
+    full_name: "Photos de Chantier Dashboard"
+    url: https://photos.srv759970.hstgr.cloud
+    port: 8503
+    type: client_app
+    status: production
+    docker_autostart: true
+    documentation: "See project repo"
+
+  - name: sharepoint-dashboards
+    full_name: "SharePoint Integration Dashboards"
+    url: https://sharepoint.srv759970.hstgr.cloud
+    port: 8504
+    type: client_app
+    status: staging
+    docker_autostart: true
+    documentation: "See project repo"
+
+  - name: impro-manager
+    full_name: "Impro Manager - Team Management"
+    url: https://impro.srv759970.hstgr.cloud
+    port: 8505
+    type: client_app
+    status: development
+    docker_autostart: true
+    documentation: "See project repo"
+
+# =============================================================================
+# CMS & CONTENT (3)
+# =============================================================================
+
+cms:
+  - name: cristina-strapi
+    full_name: "Cristina Backend - Strapi CMS"
+    url: https://cristina-api.srv759970.hstgr.cloud
+    port: 1337
+    type: client_app
+    status: production
+    docker_autostart: true  # Low traffic
+    repo: "C:/Users/julien/OneDrive/Coding/_Projets de code/2025.10 Site internet Cristina"
+    documentation: "See project repo"
+
+  - name: cristina-frontend
+    full_name: "Cristina Frontend - Astro Site"
+    url: https://cristina.srv759970.hstgr.cloud
+    port: 3000
+    type: client_app
+    status: production
+    docker_autostart: false
+    repo: "C:/Users/julien/OneDrive/Coding/_Projets de code/2025.10 Site internet Cristina"
+    documentation: "See project repo"
+
+  - name: jokers-hockey
+    full_name: "Jokers Hockey - React + Express"
+    url: https://jokers.srv759970.hstgr.cloud
+    type: client_app
+    status: production
+    docker_autostart: false
+    repo: "C:/Users/julien/OneDrive/Coding/_Projets de code/2025.11 Site Web Jokers"
+    documentation: "See project repo"
+
+# =============================================================================
+# COLLABORATION & COMMUNICATION (4)
+# =============================================================================
+
+collaboration:
+  - name: nextcloud
+    full_name: "Nextcloud - File Sharing & Collaboration"
+    url: https://nextcloud.srv759970.hstgr.cloud
+    port: 8080
+    type: shared_service
+    status: production
+    docker_autostart: false
+    documentation: "docs/services/nextcloud.md"
+
+  - name: rocketchat
+    full_name: "Rocket.Chat - Team Communication"
+    url: https://chat.srv759970.hstgr.cloud
+    port: 3001
+    type: shared_service
+    status: staging
+    docker_autostart: true
+    documentation: "docs/services/rocketchat.md"
+
+  - name: jitsi
+    full_name: "Jitsi Meet - Video Conferencing"
+    url: https://meet.srv759970.hstgr.cloud
+    port: 8443
+    type: shared_service
+    status: production
+    docker_autostart: false
+    documentation: "docs/services/jitsi.md"
+
+  - name: telegram-bot
+    full_name: "Telegram Bot - Automation"
+    type: shared_service
+    status: development
+    docker_autostart: false
+    documentation: "docs/services/telegram-bot.md"
+
+# =============================================================================
+# DOCUMENTS & MANAGEMENT (2)
+# =============================================================================
+
+documents:
+  - name: paperless-ngx
+    full_name: "Paperless-NGX - Document Management"
+    url: https://paperless.srv759970.hstgr.cloud
+    port: 8000
+    type: shared_service
+    status: production
+    docker_autostart: false
+    documentation: "docs/services/paperless-ngx.md"
+
+  - name: paperless-ai
+    full_name: "Paperless AI - Enhanced Document Processing"
+    url: https://paperless-ai.srv759970.hstgr.cloud
+    port: 8001
+    type: shared_service
+    status: development
+    docker_autostart: true
+    documentation: "docs/services/paperless-ai.md"
+
+# =============================================================================
+# AUTOMATION (1)
+# =============================================================================
+
+automation:
+  - name: n8n
+    full_name: "n8n - Workflow Automation"
+    url: https://n8n.srv759970.hstgr.cloud
+    port: 5678
+    type: shared_service
+    status: production
+    docker_autostart: false
+    documentation: "docs/services/n8n.md"
+
+# =============================================================================
+# MONITORING & INFRASTRUCTURE (9)
+# =============================================================================
+
+monitoring:
+  - name: grafana
+    full_name: "Grafana - Monitoring Dashboards"
+    url: https://monitoring.srv759970.hstgr.cloud
+    port: 3002
+    type: infrastructure
+    status: production
+    docker_autostart: false
+    documentation: "docs/services/monitoring-stack.md"
+
+  - name: prometheus
+    full_name: "Prometheus - Metrics Collection"
+    url: http://localhost:9090
+    port: 9090
+    type: infrastructure
+    status: production
+    docker_autostart: false
+    documentation: "docs/services/monitoring-stack.md"
+
+  - name: loki
+    full_name: "Loki - Log Aggregation"
+    url: http://localhost:3100
+    port: 3100
+    type: infrastructure
+    status: production
+    docker_autostart: false
+    documentation: "docs/services/monitoring-stack.md"
+
+  - name: promtail
+    full_name: "Promtail - Log Collector"
+    type: infrastructure
+    status: production
+    docker_autostart: false
+    documentation: "docs/services/monitoring-stack.md"
+
+  - name: dashy
+    full_name: "Dashy - Service Portal"
+    url: https://dashy.srv759970.hstgr.cloud
+    port: 4000
+    type: infrastructure
+    status: production
+    docker_autostart: false
+    documentation: "docs/services/dashy.md"
+
+  - name: portainer
+    full_name: "Portainer - Docker Management UI"
+    url: http://69.62.108.82:9000
+    port: 9000
+    type: infrastructure
+    status: production
+    docker_autostart: false
+    documentation: "docs/services/portainer.md"
+
+  - name: dozzle
+    full_name: "Dozzle - Real-time Docker Logs"
+    url: https://dozzle.srv759970.hstgr.cloud
+    port: 8888
+    type: infrastructure
+    status: production
+    docker_autostart: false
+    documentation: "docs/services/dozzle.md"
+
+  - name: glances
+    full_name: "Glances - System Monitoring"
+    url: https://glances.srv759970.hstgr.cloud
+    port: 61208
+    type: infrastructure
+    status: production
+    docker_autostart: false
+    documentation: "docs/services/glances.md"
+
+  - name: docker-autostart
+    full_name: "Docker Auto-Start/Stop System"
+    url: http://localhost:8890
+    port: 8890
+    type: infrastructure
+    status: production
+    docker_autostart: false  # Must always run
+    documentation: "docs/operations/docker-autostart.md"
+    notes: "Core system - manages wake/sleep of other containers"
+
+infrastructure:
+  - name: databases-shared
+    full_name: "Shared Database Instances"
+    type: infrastructure
+    status: production
+    docker_autostart: false
+    documentation: "docs/infrastructure/databases.md"
+    containers:
+      - postgres-shared  # Port 5432
+      - redis-shared     # Port 6379
+      - mongodb-shared   # Port 27017
+    notes: "Shared by multiple applications"
+
+  - name: nginx
+    full_name: "Nginx Reverse Proxy"
+    type: infrastructure
+    status: production
+    docker_autostart: false  # Native systemd service
+    documentation: "docs/infrastructure/nginx.md"
+    notes: "Main reverse proxy, 30+ sites configured"
+
+# =============================================================================
+# SPECIALTY SERVICES (4)
+# =============================================================================
+
+specialty:
+  - name: rustdesk
+    full_name: "RustDesk - Remote Desktop"
+    url: https://rustdesk.srv759970.hstgr.cloud
+    type: shared_service
+    status: staging
+    docker_autostart: false
+    documentation: "docs/services/rustdesk.md"
+
+  - name: api-portal
+    full_name: "API Portal - Documentation Hub"
+    url: https://api.srv759970.hstgr.cloud
+    type: infrastructure
+    status: production
+    docker_autostart: false
+    documentation: "docs/advanced/api-portal.md"
+
+  - name: mkdocs
+    full_name: "MkDocs - This Documentation Site"
+    url: https://docs.srv759970.hstgr.cloud
+    port: 8100
+    type: infrastructure
+    status: production
+    docker_autostart: false
+    documentation: "docs/infrastructure/mkdocs.md"
+    notes: "Serves this documentation"
+
+  - name: wake-chain
+    full_name: "Wake Chain - Dependency Wake System"
+    type: infrastructure
+    status: production
+    docker_autostart: false
+    documentation: "docs/operations/dependency-wake-chain.md"
+    repo: "C:/Users/julien/OneDrive/Coding/_Projets de code/2025.10 Wake chain"
+    notes: "Analyzes and manages service dependencies for optimal auto-start"
+
+# =============================================================================
+# SUMMARY
+# =============================================================================
+
+summary:
+  total_applications: 45
+  by_type:
+    client_app: 15
+    shared_service: 18
+    infrastructure: 12
+  by_status:
+    production: 35
+    staging: 5
+    development: 5
+  docker_autostart_enabled: 12
+  always_running: 33
+
+categories:
+  - name: "WordPress Sites"
+    count: 5
+    type: client_app
+  - name: "AI/ML Services"
+    count: 8
+    type: shared_service
+  - name: "Dashboards"
+    count: 5
+    type: client_app
+  - name: "CMS & Content"
+    count: 3
+    type: client_app
+  - name: "Collaboration"
+    count: 4
+    type: shared_service
+  - name: "Documents"
+    count: 2
+    type: shared_service
+  - name: "Automation"
+    count: 1
+    type: shared_service
+  - name: "Monitoring"
+    count: 8
+    type: infrastructure
+  - name: "Infrastructure"
+    count: 2
+    type: infrastructure
+  - name: "Specialty"
+    count: 4
+    type: mixed
+
+# =============================================================================
+# NOTES
+# =============================================================================
+
+notes:
+  - "client_app: Application spécifique client, doc dans repo projet"
+  - "shared_service: Service technique réutilisable, doc dans docs/services/"
+  - "infrastructure: Service infrastructure bas niveau, doc dans docs/infrastructure/"
+  - "docker_autostart: true = conteneur géré par auto-start/stop system"
+  - "docker_autostart: false = toujours actif (production) ou hors auto-start"
+  - "Pour documentation détaillée: voir 'documentation' field de chaque app"

@@ -5,7 +5,7 @@ REM ========================================
 
 setlocal enabledelayedexpansion
 
-set VPS_HOST=root@69.62.108.82
+set VPS_HOST=automation@69.62.108.82
 set LOCAL_DOCS=%~dp0..\docs
 set REMOTE_DOCS=/opt/mkdocs/docs
 

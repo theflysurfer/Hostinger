@@ -1,0 +1,75 @@
+version: '3.8'
+
+services:
+  rag-anything:
+    build:
+      context: .
+      dockerfile: Dockerfile.optimized
+    container_name: rag-anything-api
+    restart: unless-stopped
+    ports:
+      - "9510:9510"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - HF_HOME=/app/cache/huggingface
+      - TRANSFORMERS_CACHE=/app/cache/transformers
+    volumes:
+      # Storage for processed documents
+      - rag-storage:/app/storage
+      # Cache for models (persistent across rebuilds)
+      - rag-cache:/app/cache
+      # Optionally mount source code in dev mode
+      # - ./raganything:/app/raganything:ro  # Uncomment for dev
+    networks:
+      - rag-network
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+          cpus: '2.0'
+        reservations:
+          memory: 2G
+          cpus: '1.0'
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9510/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+
+  # Optional: Document converter service (if LibreOffice needed)
+  # Uncomment if you need Office document conversion
+  # document-converter:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile.converter
+  #   container_name: rag-document-converter
+  #   restart: unless-stopped
+  #   ports:
+  #     - "9511:9511"
+  #   networks:
+  #     - rag-network
+  #   deploy:
+  #     resources:
+  #       limits:
+  #         memory: 1G
+  #   healthcheck:
+  #     test: ["CMD", "curl", "-f", "http://localhost:9511/health"]
+  #     interval: 30s
+
+volumes:
+  rag-storage:
+    driver: local
+  rag-cache:
+    driver: local
+
+networks:
+  rag-network:
+    driver: bridge

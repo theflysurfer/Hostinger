@@ -1,0 +1,178 @@
+version: '3.8'
+
+services:
+  # ===========================
+  # Jellyfin - Media Server
+  # ===========================
+  jellyfin:
+    image: jellyfin/jellyfin:latest
+    container_name: jellyfin
+    restart: unless-stopped
+
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+
+    volumes:
+      - ./config/jellyfin:/config
+      - ./cache/jellyfin:/cache
+      - /mnt/realdebrid:/media:ro  # Symlinks vers Real-Debrid (read-only)
+
+    ports:
+      - "8096:8096"  # Web UI
+      - "8920:8920"  # HTTPS (optionnel)
+
+    networks:
+      - media
+      - web
+
+  # ===========================
+  # Radarr - Movie Management
+  # ===========================
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr
+    restart: unless-stopped
+
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+
+    volumes:
+      - ./config/radarr:/config
+      - /mnt/realdebrid:/data  # Dossier des symlinks
+
+    ports:
+      - "7878:7878"
+
+    networks:
+      - media
+
+  # ===========================
+  # Sonarr - TV Shows Management
+  # ===========================
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
+    restart: unless-stopped
+
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+
+    volumes:
+      - ./config/sonarr:/config
+      - /mnt/realdebrid:/data
+
+    ports:
+      - "8989:8989"
+
+    networks:
+      - media
+
+  # ===========================
+  # Prowlarr - Indexer Manager
+  # ===========================
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    restart: unless-stopped
+
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+
+    volumes:
+      - ./config/prowlarr:/config
+
+    ports:
+      - "9696:9696"
+
+    networks:
+      - media
+
+  # ===========================
+  # RDTClient - Real-Debrid Client
+  # ===========================
+  rdtclient:
+    image: rogerfar/rdtclient:latest
+    container_name: rdtclient
+    restart: unless-stopped
+
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+
+    volumes:
+      - ./config/rdtclient:/data/db
+      - /mnt/realdebrid:/data/downloads  # Crée les symlinks ici
+
+    ports:
+      - "6500:6500"
+
+    networks:
+      - media
+
+  # ===========================
+  # Bazarr - Subtitle Downloader
+  # ===========================
+  bazarr:
+    image: lscr.io/linuxserver/bazarr:latest
+    container_name: bazarr
+    restart: unless-stopped
+
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Paris
+
+    volumes:
+      - ./config/bazarr:/config
+      - /mnt/realdebrid:/data  # Accès aux médias pour sous-titres
+
+    ports:
+      - "6767:6767"
+
+    networks:
+      - media
+
+  # ===========================
+  # Jellyseerr - Request Management
+  # ===========================
+  jellyseerr:
+    image: fallenbagel/jellyseerr:latest
+    container_name: jellyseerr
+    restart: unless-stopped
+
+    environment:
+      - LOG_LEVEL=info
+      - TZ=Europe/Paris
+
+    volumes:
+      - ./config/jellyseerr:/app/config
+
+    ports:
+      - "5055:5055"
+
+    networks:
+      - media
+      - web
+
+networks:
+  media:
+    driver: bridge
+  web:
+    external: true  # Réseau existant pour Nginx
+
+volumes:
+  realdebrid:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /mnt/realdebrid
