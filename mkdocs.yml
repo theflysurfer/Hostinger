@@ -78,9 +78,11 @@ nav:
     - Documents:
       - Paperless NGX: services/paperless-ngx.md
       - Paperless AI: services/paperless-ai.md
+    - Automation:
+      - N8N: services/n8n.md
 
   - Applications:
-    - Vue d'ensemble: applications/README.md
+    - Vue d'ensemble: applications/index.md
     - Registry (45 apps): applications/registry.yml
 
   - Opérations:
@@ -103,6 +105,22 @@ nav:
     - Security:
       - Basic Auth: 04-reference/security/basic-auth.md
       - SSL Certbot: 04-reference/security/ssl-certbot.md
+    - Deployment Guides:
+      - Astro: reference/deployment/astro-deployment.md
+      - Jitsi Transcription: reference/deployment/jitsi-transcription.md
+      - Live Status Page: reference/deployment/live-status-page.md
+      - N8N: reference/deployment/n8n-setup.md
+      - Ollama: reference/deployment/ollama-setup.md
+      - RustDesk: reference/deployment/rustdesk-deployment.md
+      - Strapi: reference/deployment/strapi-setup.md
+      - Tika: reference/deployment/tika-deployment.md
+      - VideoRAG Docker: reference/deployment/videorag-docker.md
+      - VideoRAG Systemd: reference/deployment/videorag-systemd.md
+      - Whisper: reference/deployment/whisper-deployment.md
+      - WhisperX Monitoring: reference/deployment/whisperx-monitoring.md
+      - WordPress Cache: reference/deployment/cache-wordpress.md
+      - WordPress Docker: reference/deployment/wordpress-docker.md
+      - WordPress Multisite: reference/deployment/wordpress-multisite.md
 
   - Advanced:
     - API Portal: 05-advanced/api-portal.md
