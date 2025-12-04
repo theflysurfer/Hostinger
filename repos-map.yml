@@ -1,0 +1,273 @@
+# Repository Map
+# Maintains relationships between Hostinger infrastructure and all related projects
+
+metadata:
+  version: "1.0.0"
+  last_updated: "2025-12-04"
+  description: "Map of all repositories related to Hostinger VPS infrastructure"
+
+infrastructure:
+  hostinger:
+    name: "Hostinger VPS Infrastructure"
+    path: "C:\\Users\\julien\\OneDrive\\Coding\\_référentiels de code\\Hostinger"
+    github: "https://github.com/theflysurfer/Hostinger"
+    type: "infrastructure"
+    description: "Single source of truth for srv759970.hstgr.cloud infrastructure documentation"
+
+  marketplace:
+    name: "Claude Code Marketplace"
+    path: "C:\\Users\\julien\\OneDrive\\Coding\\_Projets de code\\2025.11 Claude Code MarketPlace"
+    github: "https://github.com/theflysurfer/claude-skills-marketplace"
+    type: "development"
+    description: "Personal skills marketplace for Claude Code"
+    skills:
+      - hostinger-ssh
+      - hostinger-docker
+      - hostinger-nginx
+      - hostinger-database
+      - hostinger-maintenance
+      - sync-personal-skills
+
+  nginx-manager:
+    name: "Nginx Manager"
+    path: "C:\\Users\\julien\\OneDrive\\Coding\\_Projets de code\\2025.10 Nginx Manager"
+    github: null  # À configurer
+    type: "tooling"
+    description: "Advanced Nginx configuration management tool"
+    related_docs: "docs/infrastructure/nginx.md"
+
+  wake-chain:
+    name: "Wake Chain"
+    path: "C:\\Users\\julien\\OneDrive\\Coding\\_Projets de code\\2025.10 Wake chain"
+    github: null  # À configurer
+    type: "service"
+    description: "Dependency analysis for Docker auto-start optimization"
+    related_docs: "docs/operations/dependency-wake-chain.md"
+    deployed_url: null  # Service en développement
+
+# Technical services with their own repos
+services:
+  whisperx:
+    name: "WhisperX AI Transcription"
+    path: null  # Service externe
+    github: "https://github.com/m-bain/whisperX"
+    type: "service"
+    deployed_url: "https://whisperx.srv759970.hstgr.cloud"
+    port: 8001
+    docker_container: "whisperx"
+    related_docs: "docs/services/whisperx.md"
+
+  tika:
+    name: "Apache Tika Document Parsing"
+    path: null  # Service externe
+    github: "https://github.com/apache/tika"
+    type: "service"
+    deployed_url: "https://tika.srv759970.hstgr.cloud"
+    port: 9998
+    docker_container: "tika"
+    related_docs: "docs/services/tika.md"
+
+  ragflow:
+    name: "RAGFlow"
+    path: null
+    github: "https://github.com/infiniflow/ragflow"
+    type: "service"
+    deployed_url: "https://ragflow.srv759970.hstgr.cloud"
+    port: 8002
+    docker_container: "ragflow"
+    related_docs: "docs/services/ragflow.md"
+
+  ollama:
+    name: "Ollama Local LLM"
+    path: null
+    github: "https://github.com/ollama/ollama"
+    type: "service"
+    deployed_url: "http://69.62.108.82:11434"
+    port: 11434
+    docker_container: "ollama"
+    related_docs: "docs/services/ollama.md"
+
+  memvid:
+    name: "MemVid"
+    path: null
+    github: null  # À compléter
+    type: "service"
+    deployed_url: "https://memvid.srv759970.hstgr.cloud"
+    port: 8000
+    docker_container: "memvid"
+    related_docs: "docs/services/memvid.md"
+
+# Client applications
+applications:
+  wordpress:
+    clemence:
+      name: "Clémence Fouquet - Site Personnel"
+      path: "C:\\Users\\julien\\OneDrive\\Coding\\_Projets de code\\2025.10 Site internet Clem"
+      github: null  # À configurer
+      type: "client-wordpress"
+      deployed_url: "https://clemencefouquet.fr"
+      port: 9002
+      docker_container: "clemence-wordpress"
+      client: "Clémence Fouquet"
+      status: "production"
+      infrastructure_docs: "docs/applications/registry.yml"
+
+    solidarlink:
+      name: "SolidarLink"
+      path: null  # À documenter
+      github: null
+      type: "client-wordpress"
+      deployed_url: "https://solidarlink.srv759970.hstgr.cloud"
+      port: 9003
+      docker_container: "solidarlink"
+      client: "SolidarLink"
+      status: "production"
+      infrastructure_docs: "docs/applications/registry.yml"
+
+  custom_sites:
+    cristina:
+      name: "Cristina Gonzalez - Site Portfolio"
+      path: "C:\\Users\\julien\\OneDrive\\Coding\\_Projets de code\\2025.10 Site Cristina"
+      github: null
+      type: "client-custom"
+      deployed_url: "https://cristina.srv759970.hstgr.cloud"
+      port: 3002
+      docker_container: "cristina-site"
+      client: "Cristina Gonzalez"
+      status: "production"
+      tech_stack: "Astro"
+      infrastructure_docs: "docs/applications/registry.yml"
+
+    jokers:
+      name: "Les Jokers - Site Troupe"
+      path: null  # À documenter
+      github: null
+      type: "client-custom"
+      deployed_url: "https://jokers.srv759970.hstgr.cloud"
+      port: null
+      docker_container: null
+      client: "Les Jokers"
+      status: "production"
+      infrastructure_docs: "docs/applications/registry.yml"
+
+  dashboards:
+    energie:
+      name: "Energie Dashboard"
+      path: null  # À documenter
+      github: null
+      type: "internal-dashboard"
+      deployed_url: "https://energie.srv759970.hstgr.cloud"
+      port: 3001
+      docker_container: "energie-dashboard"
+      status: "production"
+      infrastructure_docs: "docs/applications/registry.yml"
+
+    support:
+      name: "Support Dashboard"
+      path: null
+      github: null
+      type: "internal-dashboard"
+      deployed_url: "https://support.srv759970.hstgr.cloud"
+      port: null
+      docker_container: null
+      status: "production"
+      infrastructure_docs: "docs/applications/registry.yml"
+
+# Infrastructure services (monitoring, etc.)
+monitoring:
+  dashy:
+    name: "Dashy Portal"
+    path: null
+    github: "https://github.com/Lissy93/dashy"
+    type: "infrastructure-service"
+    deployed_url: "https://dashy.srv759970.hstgr.cloud"
+    port: 4000
+    docker_container: "dashy"
+    related_docs: "docs/services/dashy.md"
+
+  portainer:
+    name: "Portainer"
+    path: null
+    github: "https://github.com/portainer/portainer"
+    type: "infrastructure-service"
+    deployed_url: "http://69.62.108.82:9000"
+    port: 9000
+    docker_container: "portainer"
+    related_docs: "docs/applications/registry.yml"
+
+  grafana:
+    name: "Grafana Monitoring"
+    path: null
+    github: "https://github.com/grafana/grafana"
+    type: "infrastructure-service"
+    deployed_url: "https://monitoring.srv759970.hstgr.cloud"
+    port: 3000
+    docker_container: "grafana"
+    related_docs: "docs/services/monitoring-stack.md"
+
+# Documentation strategy
+documentation_rules:
+  infrastructure:
+    location: "Hostinger repo (docs/infrastructure/)"
+    examples:
+      - "Server configuration"
+      - "Nginx reverse proxy"
+      - "Docker engine"
+      - "Security policies"
+
+  services:
+    location: "Hostinger repo (docs/services/) OR dedicated repo"
+    criteria: "Reusable technical service with API used by multiple apps"
+    examples:
+      - "WhisperX"
+      - "Tika"
+      - "RAGFlow"
+
+  applications:
+    location: "Individual project repos"
+    registry: "docs/applications/registry.yml (metadata only)"
+    examples:
+      - "Client websites"
+      - "Dashboards"
+      - "WordPress sites"
+
+  operations:
+    location: "Hostinger repo (docs/operations/)"
+    examples:
+      - "Backup procedures"
+      - "Deployment workflows"
+      - "Emergency runbooks"
+
+# Skills mapping
+skills_strategy:
+  global_skills:
+    location: "~/.claude/skills/ (junction to Marketplace repo)"
+    description: "Infrastructure skills available in ALL projects"
+    skills:
+      - name: "hostinger-ssh"
+        auto_invoke: "SSH connection, server management, system operations"
+      - name: "hostinger-docker"
+        auto_invoke: "Docker operations, container management, optimization"
+      - name: "hostinger-nginx"
+        auto_invoke: "Nginx config, SSL setup, 502/504 errors"
+      - name: "hostinger-database"
+        auto_invoke: "Database operations, backups, user management"
+      - name: "hostinger-maintenance"
+        auto_invoke: "Maintenance tasks, cleanup, monitoring"
+
+  project_skills:
+    location: ".claude/skills/ (within each project)"
+    description: "Project-specific skills shared with team via git"
+    examples:
+      - "wordpress-deployment (in WordPress projects)"
+      - "astro-build (in Astro projects)"
+      - "client-workflow (client-specific procedures)"
+
+# Reference links
+references:
+  infrastructure_docs: "https://github.com/theflysurfer/Hostinger"
+  skills_marketplace: "https://github.com/theflysurfer/claude-skills-marketplace"
+  complete_registry: "docs/applications/registry.yml"
+  server_ip: "69.62.108.82"
+  server_hostname: "srv759970.hstgr.cloud"
+  ssh_user: "automation"
