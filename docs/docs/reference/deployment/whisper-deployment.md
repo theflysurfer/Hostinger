@@ -468,4 +468,4 @@ certbot renew --dry-run
 - [WhisperX Service](../../../services/ai/whisperx.md) - Accès rapide WhisperX
 - [Monitoring WhisperX](../monitoring/whisperx-monitoring.md) - Stack de monitoring complète
 - [Docker Autostart](../../deployment/docker-autostart-setup.md) - Configuration auto-start
-- [Nginx](../../../infrastructure/nginx.md) - Reverse proxy configuration
+- [Nginx](../../infrastructure/nginx.md) - Reverse proxy configuration

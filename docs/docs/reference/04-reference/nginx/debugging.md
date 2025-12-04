@@ -118,5 +118,5 @@ Then reload: `systemctl reload nginx`
 ## See Also
 
 - [Configuration Reference](proxy-config.md)
-- [../../infrastructure/nginx.md](../../infrastructure/nginx.md)
+- [../infrastructure/nginx.md](../infrastructure/nginx.md)
 - [../../guides/infrastructure/nginx-troubleshooting.md](../../guides/infrastructure/nginx-troubleshooting.md)

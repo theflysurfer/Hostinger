@@ -688,7 +688,7 @@ ssh root@69.62.108.82 "ls -lh /opt/mon-backend/data/"
 - [Strapi 5 Documentation](https://docs.strapi.io/)
 - [Strapi Deployment Guide](https://docs.strapi.io/dev-docs/deployment)
 - [Strapi GitHub Issue #23433](https://github.com/strapi/strapi/issues/23433) (allowedHosts bug)
-- [Guide Nginx](../../../infrastructure/nginx.md)
+- [Guide Nginx](../../infrastructure/nginx.md)
 - [Guide Docker VPS](../../getting-started/vps-initial-setup.md)
 
 ---

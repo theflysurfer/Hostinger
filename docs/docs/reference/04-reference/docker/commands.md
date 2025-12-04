@@ -323,6 +323,6 @@ docker image prune -a -f
 
 ## Voir aussi
 
-- [Infrastructure > Docker](../../infrastructure/docker.md) - Documentation complète Docker
+- [Infrastructure > Docker](../infrastructure/docker.md) - Documentation complète Docker
 - [Docker Compose Snippets](compose-patterns.md) - Configurations réutilisables
 - [Guides > Docker Autostart](../../guides/deployment/docker-autostart-setup.md) - Auto-démarrage services

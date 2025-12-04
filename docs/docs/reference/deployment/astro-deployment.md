@@ -780,7 +780,7 @@ dist/
 - [Astro Documentation](https://docs.astro.build/)
 - [Astro Deployment Guide](https://docs.astro.build/en/guides/deploy/)
 - [Nginx Documentation](https://nginx.org/en/docs/)
-- [Guide Nginx VPS](../../../infrastructure/nginx.md)
+- [Guide Nginx VPS](../../infrastructure/nginx.md)
 
 ---
 

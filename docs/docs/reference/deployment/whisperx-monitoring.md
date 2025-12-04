@@ -529,5 +529,5 @@ Lien direct : https://grafana.com/grafana/dashboards/12196-rq-dashboard/
 - [Faster-Whisper Queue](../../../services/ai/faster-whisper-queue.md) - Service à monitorer
 - [WhisperX Service](../../../services/ai/whisperx.md) - Service WhisperX
 - [Guide Whisper Services](../ai/whisper-deployment.md) - Déploiement des services
-- [Nginx](../../../infrastructure/nginx.md) - Configuration reverse proxy
-- [Docker](../../../infrastructure/docker.md) - Gestion des conteneurs
+- [Nginx](../../infrastructure/nginx.md) - Configuration reverse proxy
+- [Docker](../../infrastructure/docker.md) - Gestion des conteneurs

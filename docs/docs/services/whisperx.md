@@ -249,5 +249,5 @@ LLEN transcription
 
 ## Voir Aussi
 
-- [Docker](../../infrastructure/docker.md) - Gestion des conteneurs
-- [Nginx](../../infrastructure/nginx.md) - Reverse proxy configuration
+- [Docker](../infrastructure/docker.md) - Gestion des conteneurs
+- [Nginx](../infrastructure/nginx.md) - Reverse proxy configuration

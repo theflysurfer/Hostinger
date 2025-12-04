@@ -46,12 +46,12 @@ nav:
   - Accueil: index.md
 
   - Infrastructure:
-    - Vue d'ensemble: 01-infrastructure/index.md
-    - Serveur & SSH: 01-infrastructure/server.md
-    - Nginx Reverse Proxy: 01-infrastructure/nginx.md
-    - Bases de Données: 01-infrastructure/databases.md
-    - Docker Architecture: 01-infrastructure/docker.md
-    - Sécurité: 01-infrastructure/security.md
+    - Vue d'ensemble: infrastructure/index.md
+    - Serveur & SSH: infrastructure/server.md
+    - Nginx Reverse Proxy: infrastructure/nginx.md
+    - Bases de Données: infrastructure/databases.md
+    - Docker Architecture: infrastructure/docker.md
+    - Sécurité: infrastructure/security.md
 
   - Services Techniques:
     - Vue d'ensemble: services/README.md
@@ -70,7 +70,7 @@ nav:
       - Dozzle: services/dozzle.md
       - Glances: services/glances.md
       - Portainer: services/portainer.md
-      - Docker AutoStart: 03-operations/docker-autostart.md
+      - Docker AutoStart: operations/docker-autostart.md
     - Collaboration:
       - Nextcloud: services/nextcloud.md
       - Jitsi Meet: services/jitsi.md
@@ -86,25 +86,25 @@ nav:
     - Registry (45 apps): applications/registry.yml
 
   - Opérations:
-    - Backup & Restore: 03-operations/backup.md
-    - Cloudflare Setup: 03-operations/cloudflare.md
-    - Dependency Wake Chain: 03-operations/dependency-wake-chain.md
-    - Docker AutoStart: 03-operations/docker-autostart.md
-    - Systemd Services: 03-operations/deployment-systemd.md
-    - VPS Initial Setup: 03-operations/vps-setup.md
-    - Emergency Runbook: 03-operations/emergency-runbook.md
+    - Backup & Restore: operations/backup.md
+    - Cloudflare Setup: operations/cloudflare.md
+    - Dependency Wake Chain: operations/dependency-wake-chain.md
+    - Docker AutoStart: operations/docker-autostart.md
+    - Systemd Services: operations/deployment-systemd.md
+    - VPS Initial Setup: operations/vps-setup.md
+    - Emergency Runbook: operations/emergency-runbook.md
 
   - Référence Technique:
     - Docker:
-      - Commands: 04-reference/docker/commands.md
-      - Compose Patterns: 04-reference/docker/compose-patterns.md
+      - Commands: reference/docker/commands.md
+      - Compose Patterns: reference/docker/compose-patterns.md
     - Nginx:
-      - Debugging: 04-reference/nginx/debugging.md
-      - Proxy Headers: 04-reference/nginx/proxy-headers.md
-      - SSL Config: 04-reference/nginx/ssl-config.md
+      - Debugging: reference/nginx/debugging.md
+      - Proxy Headers: reference/nginx/proxy-headers.md
+      - SSL Config: reference/nginx/ssl-config.md
     - Security:
-      - Basic Auth: 04-reference/security/basic-auth.md
-      - SSL Certbot: 04-reference/security/ssl-certbot.md
+      - Basic Auth: reference/security/basic-auth.md
+      - SSL Certbot: reference/security/ssl-certbot.md
     - Deployment Guides:
       - Astro: reference/deployment/astro-deployment.md
       - Jitsi Transcription: reference/deployment/jitsi-transcription.md
@@ -123,15 +123,23 @@ nav:
       - WordPress Multisite: reference/deployment/wordpress-multisite.md
 
   - Advanced:
-    - API Portal: 05-advanced/api-portal.md
-    - DevOps Best Practices: 05-advanced/devops-best-practices.md
-    - LLM Usage: 05-advanced/llm-usage.md
-    - MCP Servers: 05-advanced/mcp-servers.md
-    - Git Policy: 05-advanced/git-policy.md
+    - API Portal: advanced/api-portal.md
+    - DevOps Best Practices: advanced/devops-best-practices.md
+    - LLM Usage: advanced/llm-usage.md
+    - MCP Servers: advanced/mcp-servers.md
+    - Git Policy: advanced/git-policy.md
+
+  - Changelog:
+    - Autostart v2: changelog/autostart-v2.md
+    - Bot Protection: changelog/bot-protection-2025-10-23.md
+    - Dashy Autostart Fix: changelog/dashy-autostart-fix-2025-10-24.md
+    - Deployment 2025-10-20: changelog/deployment-2025-10-20.md
+    - Docs Improvement: changelog/docs-improvement-2025-10-27.md
+    - Docs Refactoring: changelog/docs-refactoring-2025-10-23.md
 
   - État Temps Réel:
-    - Server Status: 99-dynamic/server-status.md
-    - Services Status: 99-dynamic/services-status.md
+    - Server Status: dynamic/server-status.md
+    - Services Status: dynamic/services-status.md
 
 # Plugins
 plugins:

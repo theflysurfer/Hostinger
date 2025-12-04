@@ -351,5 +351,5 @@ server {
 - [Proxy Headers](proxy-headers.md) - Standard headers for reverse proxy
 - [SSL Config](ssl-config.md) - HTTPS configuration
 - [../security/ssl-certbot.md](../security/ssl-certbot.md) - SSL certificate generation
-- [../../infrastructure/nginx.md](../../infrastructure/nginx.md) - Nginx installation and setup
+- [../infrastructure/nginx.md](../infrastructure/nginx.md) - Nginx installation and setup
 - [../../guides/infrastructure/nginx-troubleshooting.md](../../guides/infrastructure/nginx-troubleshooting.md) - Troubleshooting guide

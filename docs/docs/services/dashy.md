@@ -184,7 +184,7 @@ statusCheckInterval: 600  # 10 minutes minimum
 2. **Exclure Dashy** de la configuration auto-stop
 3. Accepter que les services ne s'arrêteront plus automatiquement
 
-**Référence:** Voir [Changelog Fix Dashy/Auto-Stop](../../changelog/dashy-autostart-fix-2025-10-24.md)
+**Référence:** Voir [Changelog Fix Dashy/Auto-Stop](../changelog/dashy-autostart-fix-2025-10-24.md)
 
 ## Déploiement
 
@@ -458,8 +458,8 @@ Dashy est protégé par HTTP Basic Authentication:
 
 ## Voir Aussi
 
-- [Infrastructure > Nginx](../../infrastructure/nginx.md) - Configuration reverse proxy
-- [Infrastructure > Security](../../infrastructure/security.md) - Basic Auth setup
+- [Infrastructure > Nginx](../infrastructure/nginx.md) - Configuration reverse proxy
+- [Infrastructure > Security](../infrastructure/security.md) - Basic Auth setup
 - [Analysis > Auth Strategy](../../analysis/auth-strategy-oauth-vs-basic.md) - OAuth vs Basic Auth
 - [MkDocs Documentation](https://docs.srv759970.hstgr.cloud) - Documentation complète
 
@@ -473,4 +473,4 @@ Dashy est protégé par HTTP Basic Authentication:
 
 **Dernière mise à jour:** 2025-10-24 (Fix status checks + auto-stop)
 **Prochaine révision:** Après ajout de nouveaux services
-**Changelog:** Voir [Fix Dashy/Auto-Stop 2025-10-24](../../changelog/dashy-autostart-fix-2025-10-24.md)
+**Changelog:** Voir [Fix Dashy/Auto-Stop 2025-10-24](../changelog/dashy-autostart-fix-2025-10-24.md)

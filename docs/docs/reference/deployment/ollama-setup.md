@@ -476,7 +476,7 @@ curl -H "X-API-Key: votre-secret-key" https://ollama.srv759970.hstgr.cloud/api/t
 - **Ollama Documentation** : https://github.com/ollama/ollama
 - **API Reference** : https://github.com/ollama/ollama/blob/main/docs/api.md
 - **Modèles disponibles** : https://ollama.com/library
-- **Guide Nginx** : [Nginx Infrastructure](../../../infrastructure/nginx.md)
+- **Guide Nginx** : [Nginx Infrastructure](../../infrastructure/nginx.md)
 
 ---
 

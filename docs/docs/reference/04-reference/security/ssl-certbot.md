@@ -327,5 +327,5 @@ certbot certonly --nginx \
 ## See Also
 
 - [../nginx/ssl-config.md](../nginx/ssl-config.md) - Nginx SSL configuration reference
-- [../../infrastructure/security.md](../../infrastructure/security.md) - Security overview
-- [../../infrastructure/nginx.md](../../infrastructure/nginx.md) - Nginx infrastructure setup
+- [../infrastructure/security.md](../infrastructure/security.md) - Security overview
+- [../infrastructure/nginx.md](../infrastructure/nginx.md) - Nginx infrastructure setup

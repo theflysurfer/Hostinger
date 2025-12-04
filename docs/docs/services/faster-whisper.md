@@ -433,5 +433,5 @@ docker exec rq-queue-redis redis-cli -n 1 FLUSHDB
 - [Guide Whisper Services](../../guides/services/ai/whisper-deployment.md) - Comparaison et choix entre services
 - [WhisperX Service](whisperx.md) - Service avec diarization
 - [Monitoring WhisperX](../../guides/services/monitoring/whisperx-monitoring.md) - Stack Grafana + Prometheus + Loki
-- [Docker](../../infrastructure/docker.md) - Gestion des conteneurs
-- [Reference Docker Commands](../../reference/docker/commands.md) - Commandes Docker courantes
+- [Docker](../infrastructure/docker.md) - Gestion des conteneurs
+- [Reference Docker Commands](../reference/docker/commands.md) - Commandes Docker courantes

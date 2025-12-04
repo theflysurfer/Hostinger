@@ -174,5 +174,5 @@ systemctl reload nginx
 
 ## Voir aussi
 
-- [Infrastructure > Security](../../infrastructure/security.md) - Vue d'ensemble sécurité
-- [Infrastructure > Nginx](../../infrastructure/nginx.md) - Configuration Nginx globale
+- [Infrastructure > Security](../infrastructure/security.md) - Vue d'ensemble sécurité
+- [Infrastructure > Nginx](../infrastructure/nginx.md) - Configuration Nginx globale
