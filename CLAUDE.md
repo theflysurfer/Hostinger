@@ -20,36 +20,49 @@ This repository documents the **infrastructure layer** of srv759970.hstgr.cloud:
 
 ### Available Infrastructure Skills
 
-This repository relies on **global personal skills** from the marketplace that are auto-loaded from `~/.claude/skills/`. These skills are developed in:
+This repository uses **7 global infrastructure skills** auto-loaded from `~/.claude/skills/`.
 
-**Marketplace repo**: `C:\Users\julien\OneDrive\Coding\_Projets de code\2025.11 Claude Code MarketPlace`
+**Skills are maintained in**: `C:\Users\julien\OneDrive\Coding\_Projets de code\2025.11 Claude Code MarketPlace\skills\`
+**Available globally from**: `~/.claude/skills/julien-infra-hostinger-*`
 
-#### Core Infrastructure Skills
+These skills are automatically available in this project without needing to be in the repo.
 
-**hostinger-ssh**
+#### Core Infrastructure Skills (7 skills)
+
+**julien-infra-hostinger-ssh**
 - Purpose: SSH connection, server management, system status
 - Invoke when: User needs to connect, check resources, system operations
 - Key operations: SSH access, disk space, RAM usage, system logs
 
-**hostinger-docker**
+**julien-infra-hostinger-docker**
 - Purpose: Docker container operations, image optimization, troubleshooting
 - Invoke when: Managing containers, deploying services, cleaning resources
 - Key operations: Container management, image optimization, docker cleanup
 
-**hostinger-nginx**
+**julien-infra-hostinger-nginx**
 - Purpose: Nginx reverse proxy configuration, SSL management
 - Invoke when: Configuring sites, SSL setup, 502/504 errors, site not accessible
 - Key operations: Site configuration, SSL/Let's Encrypt, reverse proxy, debugging
 
-**hostinger-database**
+**julien-infra-hostinger-database**
 - Purpose: PostgreSQL, Redis, MongoDB operations
 - Invoke when: Database connections, backups, user management, performance issues
 - Key operations: Database queries, backups, user management, performance monitoring
 
-**hostinger-maintenance**
+**julien-infra-hostinger-maintenance**
 - Purpose: Recurring maintenance tasks, runbooks
 - Invoke when: Scheduled maintenance, cleanup operations, system health checks
 - Key operations: Docker cleanup, disk space monitoring, SSL verification, system updates
+
+**julien-infra-hostinger-deployment**
+- Purpose: Complete deployment workflow orchestration
+- Invoke when: Deploying applications, Git sync, build and restart operations
+- Key operations: Git sync, build, PM2 restart, verification for production/preview
+
+**julien-infra-hostinger-space-reclaim**
+- Purpose: Disk space reclamation through automated analysis and cleanup
+- Invoke when: Disk space critical (>90% usage) or preventive maintenance
+- Key operations: Docker cleanup, log rotation, application data cleanup
 
 ### Documentation Structure
 
