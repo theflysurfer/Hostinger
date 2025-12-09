@@ -4,8 +4,8 @@ site_author: Julien Fernandez
 site_url: https://docs.srv759970.hstgr.cloud
 
 # Directories
-docs_dir: docs/docs
-site_dir: docs/site
+docs_dir: docs
+site_dir: site
 
 # Theme
 theme:
@@ -62,8 +62,12 @@ nav:
       - Ollama (Local LLM): services/ollama.md
       - RAGFlow: services/ragflow.md
       - MemVid: services/memvid.md
+      - Langchain Service: services/langchain-service.md
+      - Paperflow: services/paperflow.md
       - NeuTTS (TTS): services/neutts.md
       - XTTS (TTS): services/xtts.md
+    - Bots:
+      - Discord Bot: services/discord-bot.md
     - Infrastructure Services:
       - Monitoring Stack: services/monitoring-stack.md
       - Dashy Portal: services/dashy.md

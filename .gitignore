@@ -1,0 +1,58 @@
+# MkDocs build output
+site/
+docs/site/
+
+# Backups
+docs-backup/
+
+# Temporary files
+.temp/
+*.tmp
+*.log
+
+# Screenshots & test artifacts
+.playwright-mcp/
+screenshots/
+test-results/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+*.egg-info/
+.pytest_cache/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*~
+
+# IDE
+.vscode/
+.idea/
+*.sublime-*
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Reports & analysis (keep in archive/ only)
+/*_ANALYSIS*.md
+/*_STATUS*.md
+/MIGRATION_*.md
+/SESSION_*.md
+/SPACE_*.md
+/DOCKER_*.md
+
+# Ignore all REPORT files except restructuration docs
+/*_REPORT*.md
+!MKDOCS_RESTRUCTURATION_REPORT.md
+!RESTRUCTURATION_PROPOSAL.md
